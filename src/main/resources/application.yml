@@ -1,0 +1,106 @@
+spring:
+  application:
+    name: database-script-watcher
+  
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  
+  h2:
+    console:
+      enabled: true
+
+logging:
+  level:
+    com.fabric.watcher: DEBUG
+    org.springframework: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%X{correlationId:-}] [%X{fileName:-}] [%X{processorType:-}] %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%X{correlationId:-}] [%X{fileName:-}] [%X{processorType:-}] %logger{36} - %msg%n"
+  file:
+    name: logs/file-watcher.log
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+file-watcher:
+  global:
+    max-retry-attempts: 3
+    retry-delay: 1000
+  
+  watch-configs:
+    sql-scripts:
+      name: "SQL Script Processor"
+      processor-type: "sql-script"
+      watch-folder: "./sql-scripts"
+      completed-folder: "./sql-scripts/completed"
+      error-folder: "./sql-scripts/error"
+      file-patterns: ["*.sql"]
+      polling-interval: 5000
+      enabled: true
+    
+    sqlloader-logs:
+      name: "SQL Loader Log Processor"
+      processor-type: "sqlloader-log"
+      watch-folder: "./sqlloader-logs"
+      completed-folder: "./sqlloader-logs/completed"
+      error-folder: "./sqlloader-logs/error"
+      file-patterns: ["*.log", "*.ctl"]
+      polling-interval: 10000
+      enabled: false
+
+# Resilience4j Configuration
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 30s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+        recordExceptions:
+          - org.springframework.dao.DataAccessException
+          - java.io.IOException
+          - java.net.SocketException
+          - java.net.SocketTimeoutException
+          - java.util.concurrent.TimeoutException
+    instances:
+      database:
+        baseConfig: default
+        failureRateThreshold: 50
+        waitDurationInOpenState: 30s
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        slowCallRateThreshold: 80
+        slowCallDurationThreshold: 5s
+      filesystem:
+        baseConfig: default
+        failureRateThreshold: 70
+        waitDurationInOpenState: 15s
+        slidingWindowSize: 20
+        minimumNumberOfCalls: 10
+      external:
+        baseConfig: default
+        failureRateThreshold: 60
+        waitDurationInOpenState: 20s
+        slidingWindowSize: 15
+        minimumNumberOfCalls: 8
+  

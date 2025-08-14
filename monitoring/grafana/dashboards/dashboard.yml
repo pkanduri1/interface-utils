@@ -1,0 +1,14 @@
+# Grafana dashboard provisioning configuration
+
+apiVersion: 1
+
+providers:
+  - name: 'Database Script Watcher Dashboards'
+    orgId: 1
+    folder: 'File Watcher'
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards

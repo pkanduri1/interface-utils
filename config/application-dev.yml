@@ -1,0 +1,110 @@
+# Development Environment Configuration
+spring:
+  application:
+    name: database-script-watcher
+  
+  datasource:
+    url: jdbc:h2:mem:devdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 2
+      connection-timeout: 20000
+      idle-timeout: 300000
+      max-lifetime: 1200000
+  
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    com.fabric.watcher: DEBUG
+    org.springframework: INFO
+    org.springframework.jdbc: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%X{correlationId:-}] [%X{fileName:-}] [%X{processorType:-}] %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%X{correlationId:-}] [%X{fileName:-}] [%X{processorType:-}] %logger{36} - %msg%n"
+  file:
+    name: logs/file-watcher-dev.log
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+file-watcher:
+  global:
+    max-retry-attempts: 3
+    retry-delay: 1000
+  
+  watch-configs:
+    sql-scripts:
+      name: "SQL Script Processor - Dev"
+      processor-type: "sql-script"
+      watch-folder: "./dev-data/sql-scripts"
+      completed-folder: "./dev-data/sql-scripts/completed"
+      error-folder: "./dev-data/sql-scripts/error"
+      file-patterns: ["*.sql"]
+      polling-interval: 2000  # Faster polling for development
+      enabled: true
+    
+    sqlloader-logs:
+      name: "SQL Loader Log Processor - Dev"
+      processor-type: "sqlloader-log"
+      watch-folder: "./dev-data/sqlloader-logs"
+      completed-folder: "./dev-data/sqlloader-logs/completed"
+      error-folder: "./dev-data/sqlloader-logs/error"
+      file-patterns: ["*.log", "*.ctl"]
+      polling-interval: 5000  # Faster polling for development
+      enabled: true
+
+# Resilience4j Configuration - More lenient for development
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 3
+        permittedNumberOfCallsInHalfOpenState: 2
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 10s  # Shorter wait time for dev
+        failureRateThreshold: 70  # More lenient failure rate
+        eventConsumerBufferSize: 10
+    instances:
+      database:
+        baseConfig: default
+        failureRateThreshold: 70
+        waitDurationInOpenState: 10s
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 3
+      filesystem:
+        baseConfig: default
+        failureRateThreshold: 80
+        waitDurationInOpenState: 5s
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5

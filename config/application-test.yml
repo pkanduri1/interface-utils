@@ -1,0 +1,99 @@
+# Test Environment Configuration
+spring:
+  application:
+    name: database-script-watcher-test
+  
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+    hikari:
+      maximum-pool-size: 3
+      minimum-idle: 1
+      connection-timeout: 10000
+      idle-timeout: 180000
+      max-lifetime: 600000
+  
+  h2:
+    console:
+      enabled: false
+  
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+
+logging:
+  level:
+    com.fabric.watcher: INFO
+    org.springframework: WARN
+    org.hibernate: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%X{correlationId:-}] [%X{fileName:-}] [%X{processorType:-}] %logger{36} - %msg%n"
+  file:
+    name: logs/file-watcher-test.log
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+    metrics:
+      enabled: true
+
+file-watcher:
+  global:
+    max-retry-attempts: 2
+    retry-delay: 500
+  
+  watch-configs:
+    sql-scripts:
+      name: "SQL Script Processor - Test"
+      processor-type: "sql-script"
+      watch-folder: "./test-data/sql-scripts"
+      completed-folder: "./test-data/sql-scripts/completed"
+      error-folder: "./test-data/sql-scripts/error"
+      file-patterns: ["*.sql"]
+      polling-interval: 1000  # Fast polling for tests
+      enabled: true
+    
+    sqlloader-logs:
+      name: "SQL Loader Log Processor - Test"
+      processor-type: "sqlloader-log"
+      watch-folder: "./test-data/sqlloader-logs"
+      completed-folder: "./test-data/sqlloader-logs/completed"
+      error-folder: "./test-data/sqlloader-logs/error"
+      file-patterns: ["*.log", "*.ctl"]
+      polling-interval: 2000
+      enabled: true
+
+# Resilience4j Configuration - Fast failure for tests
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 3
+        minimumNumberOfCalls: 2
+        permittedNumberOfCallsInHalfOpenState: 1
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 2s  # Very short wait time for tests
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 5
+    instances:
+      database:
+        baseConfig: default
+        failureRateThreshold: 50
+        waitDurationInOpenState: 2s
+        slidingWindowSize: 3
+        minimumNumberOfCalls: 2
+      filesystem:
+        baseConfig: default
+        failureRateThreshold: 60
+        waitDurationInOpenState: 1s
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 3

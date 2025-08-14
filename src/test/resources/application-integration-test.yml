@@ -1,0 +1,166 @@
+spring:
+  application:
+    name: database-script-watcher-integration-test
+  
+  datasource:
+    url: jdbc:h2:mem:integration_testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+  
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: false
+
+logging:
+  level:
+    com.fabric.watcher: DEBUG
+    org.springframework: WARN
+    org.hibernate: WARN
+    org.h2: WARN
+    org.springframework.jdbc: WARN
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level [%X{correlationId:-}] [%X{fileName:-}] [%X{processorType:-}] %logger{36} - %msg%n"
+  file:
+    name: logs/integration-test.log
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+# Integration test specific configuration
+file-watcher:
+  global:
+    max-retry-attempts: 3
+    retry-delay: 500
+  
+  watch-configs:
+    sql-scripts:
+      name: "Integration Test SQL Script Processor"
+      processor-type: "sql-script"
+      watch-folder: "./integration-test/sql-scripts"
+      completed-folder: "./integration-test/sql-scripts/completed"
+      error-folder: "./integration-test/sql-scripts/error"
+      file-patterns: ["*.sql"]
+      polling-interval: 500
+      enabled: true
+    
+    sqlloader-logs:
+      name: "Integration Test SQL Loader Log Processor"
+      processor-type: "sqlloader-log"
+      watch-folder: "./integration-test/sqlloader-logs"
+      completed-folder: "./integration-test/sqlloader-logs/completed"
+      error-folder: "./integration-test/sqlloader-logs/error"
+      file-patterns: ["*.log", "*.ctl"]
+      polling-interval: 500
+      enabled: true
+
+# Resilience4j Configuration for Integration Tests
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 3
+        permittedNumberOfCallsInHalfOpenState: 2
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+        recordExceptions:
+          - org.springframework.dao.DataAccessException
+          - java.io.IOException
+          - java.net.SocketException
+          - java.net.SocketTimeoutException
+          - java.util.concurrent.TimeoutException
+    instances:
+      database:
+        baseConfig: default
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 3
+        slowCallRateThreshold: 80
+        slowCallDurationThreshold: 2s
+      filesystem:
+        baseConfig: default
+        failureRateThreshold: 70
+        waitDurationInOpenState: 3s
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+      external:
+        baseConfig: default
+        failureRateThreshold: 60
+        waitDurationInOpenState: 4s
+        slidingWindowSize: 8
+        minimumNumberOfCalls: 4
+
+  retry:
+    configs:
+      default:
+        maxAttempts: 3
+        waitDuration: 500ms
+        retryExceptions:
+          - org.springframework.dao.DataAccessException
+          - java.io.IOException
+          - java.net.SocketException
+          - java.net.SocketTimeoutException
+    instances:
+      database:
+        baseConfig: default
+        maxAttempts: 3
+        waitDuration: 500ms
+      filesystem:
+        baseConfig: default
+        maxAttempts: 2
+        waitDuration: 200ms
+
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 10s
+    instances:
+      database:
+        baseConfig: default
+        timeoutDuration: 5s
+      filesystem:
+        baseConfig: default
+        timeoutDuration: 3s
+
+# Test-specific properties
+test:
+  integration:
+    cleanup-temp-dirs: true
+    max-test-duration: 300s
+    performance-thresholds:
+      min-throughput: 1.0  # files per second
+      max-memory-increase: 100  # MB
+      max-processing-time-per-file: 5000  # milliseconds

@@ -1,0 +1,44 @@
+# Logs
+*.log
+*.log.*
+logs/
+
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# IDE
+.idea/
+*.iws
+*.iml
+*.ipr
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
+
+# Test data
+test-data/
+temp/
+
+# Database files
+*.db
+*.sqlite
+
+# Compiled class files
+*.class
+
+# Docker volumes
+data/
+
+# Monitoring data
+prometheus_data/
+grafana_data/
+postgres_data/

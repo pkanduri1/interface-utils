@@ -1,0 +1,141 @@
+# Production Environment Configuration
+spring:
+  application:
+    name: database-script-watcher
+  
+  datasource:
+    # Production database configuration - replace with actual values
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/filewatcher}
+    driver-class-name: ${DATABASE_DRIVER:org.postgresql.Driver}
+    username: ${DATABASE_USERNAME:filewatcher}
+    password: ${DATABASE_PASSWORD:changeme}
+    hikari:
+      maximum-pool-size: ${DATABASE_MAX_POOL_SIZE:20}
+      minimum-idle: ${DATABASE_MIN_IDLE:5}
+      connection-timeout: ${DATABASE_CONNECTION_TIMEOUT:30000}
+      idle-timeout: ${DATABASE_IDLE_TIMEOUT:600000}
+      max-lifetime: ${DATABASE_MAX_LIFETIME:1800000}
+      leak-detection-threshold: ${DATABASE_LEAK_DETECTION:60000}
+  
+  jpa:
+    hibernate:
+      ddl-auto: validate  # Never auto-create in production
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: ${DATABASE_DIALECT:org.hibernate.dialect.PostgreSQLDialect}
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
+
+logging:
+  level:
+    com.fabric.watcher: ${LOG_LEVEL_APP:INFO}
+    org.springframework: ${LOG_LEVEL_SPRING:WARN}
+    org.hibernate: WARN
+    org.springframework.security: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%X{correlationId:-}] [%X{fileName:-}] [%X{processorType:-}] %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%X{correlationId:-}] [%X{fileName:-}] [%X{processorType:-}] %logger{36} - %msg%n"
+  file:
+    name: ${LOG_FILE_PATH:/var/log/file-watcher/file-watcher.log}
+    max-size: ${LOG_MAX_SIZE:100MB}
+    max-history: ${LOG_MAX_HISTORY:30}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: when-authorized
+    metrics:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    tags:
+      application: ${spring.application.name}
+      environment: production
+
+file-watcher:
+  global:
+    max-retry-attempts: ${FILE_WATCHER_MAX_RETRIES:5}
+    retry-delay: ${FILE_WATCHER_RETRY_DELAY:2000}
+  
+  watch-configs:
+    sql-scripts:
+      name: "SQL Script Processor - Production"
+      processor-type: "sql-script"
+      watch-folder: ${SQL_WATCH_FOLDER:/opt/filewatcher/sql-scripts}
+      completed-folder: ${SQL_COMPLETED_FOLDER:/opt/filewatcher/sql-scripts/completed}
+      error-folder: ${SQL_ERROR_FOLDER:/opt/filewatcher/sql-scripts/error}
+      file-patterns: ["*.sql"]
+      polling-interval: ${SQL_POLLING_INTERVAL:10000}
+      enabled: ${SQL_PROCESSOR_ENABLED:true}
+    
+    sqlloader-logs:
+      name: "SQL Loader Log Processor - Production"
+      processor-type: "sqlloader-log"
+      watch-folder: ${SQLLOADER_LOG_FOLDER:/opt/filewatcher/sqlloader-logs}
+      completed-folder: ${SQLLOADER_COMPLETED_FOLDER:/opt/filewatcher/sqlloader-logs/completed}
+      error-folder: ${SQLLOADER_ERROR_FOLDER:/opt/filewatcher/sqlloader-logs/error}
+      file-patterns: ["*.log", "*.ctl"]
+      polling-interval: ${SQLLOADER_POLLING_INTERVAL:15000}
+      enabled: ${SQLLOADER_PROCESSOR_ENABLED:false}
+
+# Resilience4j Configuration - Production settings
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 20
+        minimumNumberOfCalls: 10
+        permittedNumberOfCallsInHalfOpenState: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 60s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 20
+        recordExceptions:
+          - org.springframework.dao.DataAccessException
+          - java.io.IOException
+          - java.net.SocketException
+          - java.net.SocketTimeoutException
+          - java.util.concurrent.TimeoutException
+    instances:
+      database:
+        baseConfig: default
+        failureRateThreshold: 40  # Stricter for production
+        waitDurationInOpenState: 60s
+        slidingWindowSize: 20
+        minimumNumberOfCalls: 10
+        slowCallRateThreshold: 70
+        slowCallDurationThreshold: 10s
+      filesystem:
+        baseConfig: default
+        failureRateThreshold: 60
+        waitDurationInOpenState: 30s
+        slidingWindowSize: 30
+        minimumNumberOfCalls: 15
+      external:
+        baseConfig: default
+        failureRateThreshold: 50
+        waitDurationInOpenState: 45s
+        slidingWindowSize: 25
+        minimumNumberOfCalls: 12
+
+# Security Configuration
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: ${CONTEXT_PATH:/}
+  tomcat:
+    max-threads: ${TOMCAT_MAX_THREADS:200}
+    min-spare-threads: ${TOMCAT_MIN_THREADS:10}
+    max-connections: ${TOMCAT_MAX_CONNECTIONS:8192}
+    accept-count: ${TOMCAT_ACCEPT_COUNT:100}

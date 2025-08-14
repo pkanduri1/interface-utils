@@ -1,0 +1,294 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "Database Script Watcher Dashboard",
+    "tags": ["file-watcher", "monitoring"],
+    "style": "dark",
+    "timezone": "browser",
+    "refresh": "30s",
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "panels": [
+      {
+        "id": 1,
+        "title": "Service Status",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "up{job=\"database-script-watcher\"}",
+            "legendFormat": "Service Status"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              {
+                "options": {
+                  "0": {
+                    "text": "DOWN",
+                    "color": "red"
+                  },
+                  "1": {
+                    "text": "UP",
+                    "color": "green"
+                  }
+                },
+                "type": "value"
+              }
+            ]
+          }
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 6,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "id": 2,
+        "title": "Files Processed (Total)",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "file_watcher_files_processed_total",
+            "legendFormat": "Total Files"
+          }
+        ],
+        "gridPos": {
+          "h": 4,
+          "w": 6,
+          "x": 6,
+          "y": 0
+        }
+      },
+      {
+        "id": 3,
+        "title": "Processing Rate",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "rate(file_watcher_files_processed_total[5m]) * 60",
+            "legendFormat": "Files/min"
+          }
+        ],
+        "gridPos": {
+          "h": 4,
+          "w": 6,
+          "x": 12,
+          "y": 0
+        }
+      },
+      {
+        "id": 4,
+        "title": "Error Rate",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "rate(file_watcher_errors_total[5m]) * 60",
+            "legendFormat": "Errors/min"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "yellow",
+                  "value": 1
+                },
+                {
+                  "color": "red",
+                  "value": 5
+                }
+              ]
+            }
+          }
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 6,
+          "x": 18,
+          "y": 0
+        }
+      },
+      {
+        "id": 5,
+        "title": "File Processing Rate Over Time",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(file_watcher_files_processed_total[5m]) * 60",
+            "legendFormat": "Files/min"
+          },
+          {
+            "expr": "rate(file_watcher_errors_total[5m]) * 60",
+            "legendFormat": "Errors/min"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Files per minute"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 4
+        }
+      },
+      {
+        "id": 6,
+        "title": "Processing Duration",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.50, file_watcher_processing_duration_seconds_bucket)",
+            "legendFormat": "50th percentile"
+          },
+          {
+            "expr": "histogram_quantile(0.95, file_watcher_processing_duration_seconds_bucket)",
+            "legendFormat": "95th percentile"
+          },
+          {
+            "expr": "histogram_quantile(0.99, file_watcher_processing_duration_seconds_bucket)",
+            "legendFormat": "99th percentile"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Duration (seconds)"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 4
+        }
+      },
+      {
+        "id": 7,
+        "title": "Database Connections",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "file_watcher_database_connections_active",
+            "legendFormat": "Active Connections"
+          },
+          {
+            "expr": "file_watcher_database_connections_max",
+            "legendFormat": "Max Connections"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Connections"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 12
+        }
+      },
+      {
+        "id": 8,
+        "title": "JVM Memory Usage",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "jvm_memory_used_bytes{area=\"heap\"}",
+            "legendFormat": "Heap Used"
+          },
+          {
+            "expr": "jvm_memory_max_bytes{area=\"heap\"}",
+            "legendFormat": "Heap Max"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Bytes"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 12
+        }
+      },
+      {
+        "id": 9,
+        "title": "Circuit Breaker Status",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "resilience4j_circuitbreaker_state",
+            "format": "table",
+            "instant": true
+          }
+        ],
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "__name__": true,
+                "job": true,
+                "instance": true
+              },
+              "renameByName": {
+                "name": "Circuit Breaker",
+                "state": "State",
+                "Value": "Status"
+              }
+            }
+          }
+        ],
+        "gridPos": {
+          "h": 6,
+          "w": 12,
+          "x": 0,
+          "y": 20
+        }
+      },
+      {
+        "id": 10,
+        "title": "Recent Processing History",
+        "type": "logs",
+        "targets": [
+          {
+            "expr": "{job=\"database-script-watcher\"} |= \"Processing file\"",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 6,
+          "w": 12,
+          "x": 12,
+          "y": 20
+        }
+      }
+    ],
+    "templating": {
+      "list": []
+    },
+    "annotations": {
+      "list": []
+    },
+    "schemaVersion": 27,
+    "version": 1
+  }
+}
