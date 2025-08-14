@@ -6,9 +6,9 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
-public class InterfaceUtilsApplication {
+public class DatabaseScriptWatcherApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(InterfaceUtilsApplication.class, args);
+        SpringApplication.run(DatabaseScriptWatcherApplication.class, args);
     }
 }
