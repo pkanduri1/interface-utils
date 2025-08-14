@@ -64,6 +64,27 @@ file-watcher:
       enabled: false
 
 # Resilience4j Configuration
+# Archive Search API Configuration
+archive:
+  search:
+    enabled: ${ARCHIVE_SEARCH_ENABLED:false}
+    allowed-paths:
+      - "./data/archive"
+      - "./temp/search"
+    excluded-paths:
+      - "./data/archive/sensitive"
+    max-file-size: 104857600  # 100MB
+    max-search-results: 100
+    search-timeout-seconds: 30
+    supported-archive-types:
+      - zip
+      - tar
+      - tar.gz
+      - jar
+    max-concurrent-operations: 5
+    audit-logging-enabled: true
+    max-directory-depth: 10
+
 resilience4j:
   circuitbreaker:
     configs:
