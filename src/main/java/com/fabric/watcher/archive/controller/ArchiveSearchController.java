@@ -4,6 +4,7 @@ import com.fabric.watcher.archive.exception.ArchiveSearchException;
 import com.fabric.watcher.archive.model.*;
 import com.fabric.watcher.archive.security.EnvironmentGuard;
 import com.fabric.watcher.archive.service.ArchiveSearchService;
+import com.fabric.watcher.archive.service.ArchiveSearchAuditService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.InputStream;
 import java.nio.file.Paths;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * REST controller for archive search operations.
@@ -45,11 +47,14 @@ public class ArchiveSearchController {
 
     private final ArchiveSearchService archiveSearchService;
     private final EnvironmentGuard environmentGuard;
+    private final ArchiveSearchAuditService auditService;
 
     public ArchiveSearchController(ArchiveSearchService archiveSearchService, 
-                                 EnvironmentGuard environmentGuard) {
+                                 EnvironmentGuard environmentGuard,
+                                 ArchiveSearchAuditService auditService) {
         this.archiveSearchService = archiveSearchService;
         this.environmentGuard = environmentGuard;
+        this.auditService = auditService;
     }
 
     /**
@@ -149,12 +154,23 @@ public class ArchiveSearchController {
             @RequestParam 
             @NotBlank(message = "Pattern cannot be blank")
             @Size(max = 255, message = "Pattern cannot exceed 255 characters")
-            String pattern) {
+            String pattern,
+            
+            HttpServletRequest request) {
 
-        logger.info("Searching for files in path: {} with pattern: {}", path, pattern);
+        // Extract request information for monitoring
+        String sessionId = auditService.generateSessionId();
+        String userAgent = request.getHeader("User-Agent");
+        String remoteAddr = getClientIpAddress(request);
+        
+        logger.info("Searching for files in path: {} with pattern: {}, session: {}", path, pattern, sessionId);
+        
+        // Log API access
+        auditService.logApiAccess(sessionId, userAgent, remoteAddr, "/api/v1/archive/search", "GET", 200);
         
         // Validate environment
         if (!environmentGuard.isNonProductionEnvironment()) {
+            auditService.logApiAccess(sessionId, userAgent, remoteAddr, "/api/v1/archive/search", "GET", 503);
             throw new ArchiveSearchException(
                 ArchiveSearchException.ErrorCode.ENVIRONMENT_RESTRICTED,
                 "Archive search API is disabled in production environment"
@@ -162,7 +178,7 @@ public class ArchiveSearchController {
         }
 
         try {
-            FileSearchResponse response = archiveSearchService.searchFiles(path, pattern);
+            FileSearchResponse response = archiveSearchService.searchFiles(path, pattern, sessionId, userAgent, remoteAddr);
             logger.info("File search completed. Found {} files in {}ms", 
                        response.getTotalCount(), response.getSearchTimeMs());
             return ResponseEntity.ok(response);
@@ -248,12 +264,23 @@ public class ArchiveSearchController {
             @RequestParam 
             @NotBlank(message = "File path cannot be blank")
             @Size(max = 1000, message = "File path cannot exceed 1000 characters")
-            String filePath) {
+            String filePath,
+            
+            HttpServletRequest request) {
 
-        logger.info("Downloading file: {}", filePath);
+        // Extract request information for monitoring
+        String sessionId = auditService.generateSessionId();
+        String userAgent = request.getHeader("User-Agent");
+        String remoteAddr = getClientIpAddress(request);
+        
+        logger.info("Downloading file: {}, session: {}", filePath, sessionId);
+        
+        // Log API access
+        auditService.logApiAccess(sessionId, userAgent, remoteAddr, "/api/v1/archive/download", "GET", 200);
         
         // Validate environment
         if (!environmentGuard.isNonProductionEnvironment()) {
+            auditService.logApiAccess(sessionId, userAgent, remoteAddr, "/api/v1/archive/download", "GET", 503);
             throw new ArchiveSearchException(
                 ArchiveSearchException.ErrorCode.ENVIRONMENT_RESTRICTED,
                 "Archive search API is disabled in production environment"
@@ -261,7 +288,7 @@ public class ArchiveSearchController {
         }
 
         try {
-            InputStream fileStream = archiveSearchService.downloadFile(filePath);
+            InputStream fileStream = archiveSearchService.downloadFile(filePath, sessionId, userAgent, remoteAddr);
             
             // Extract filename for Content-Disposition header
             String fileName = Paths.get(filePath).getFileName().toString();
@@ -383,13 +410,24 @@ public class ArchiveSearchController {
                 description = "Content search request with file path and search parameters",
                 required = true
             )
-            @Valid @RequestBody ContentSearchRequest request) {
+            @Valid @RequestBody ContentSearchRequest request,
+            
+            HttpServletRequest httpRequest) {
 
-        logger.info("Searching content in file: {} for term: {}", 
-                   request.getFilePath(), request.getSearchTerm());
+        // Extract request information for monitoring
+        String sessionId = auditService.generateSessionId();
+        String userAgent = httpRequest.getHeader("User-Agent");
+        String remoteAddr = getClientIpAddress(httpRequest);
+        
+        logger.info("Searching content in file: {} for term: {}, session: {}", 
+                   request.getFilePath(), request.getSearchTerm(), sessionId);
+        
+        // Log API access
+        auditService.logApiAccess(sessionId, userAgent, remoteAddr, "/api/v1/archive/content-search", "POST", 200);
         
         // Validate environment
         if (!environmentGuard.isNonProductionEnvironment()) {
+            auditService.logApiAccess(sessionId, userAgent, remoteAddr, "/api/v1/archive/content-search", "POST", 503);
             throw new ArchiveSearchException(
                 ArchiveSearchException.ErrorCode.ENVIRONMENT_RESTRICTED,
                 "Archive search API is disabled in production environment"
@@ -397,12 +435,7 @@ public class ArchiveSearchController {
         }
 
         try {
-            ContentSearchResponse response = archiveSearchService.searchContent(
-                request.getFilePath(), 
-                request.getSearchTerm(),
-                request.getCaseSensitive(),
-                request.getWholeWord()
-            );
+            ContentSearchResponse response = archiveSearchService.searchContent(request, sessionId, userAgent, remoteAddr);
             
             logger.info("Content search completed. Found {} matches in {}ms", 
                        response.getTotalMatches(), response.getSearchTimeMs());
@@ -500,5 +533,22 @@ public class ArchiveSearchController {
         } else {
             return MediaType.APPLICATION_OCTET_STREAM_VALUE;
         }
+    }
+    
+    /**
+     * Extract client IP address from request, considering proxy headers.
+     */
+    private String getClientIpAddress(HttpServletRequest request) {
+        String xForwardedFor = request.getHeader("X-Forwarded-For");
+        if (xForwardedFor != null && !xForwardedFor.isEmpty() && !"unknown".equalsIgnoreCase(xForwardedFor)) {
+            return xForwardedFor.split(",")[0].trim();
+        }
+        
+        String xRealIp = request.getHeader("X-Real-IP");
+        if (xRealIp != null && !xRealIp.isEmpty() && !"unknown".equalsIgnoreCase(xRealIp)) {
+            return xRealIp;
+        }
+        
+        return request.getRemoteAddr();
     }
 }

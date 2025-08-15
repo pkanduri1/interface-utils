@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -36,6 +37,8 @@ public class ArchiveSearchService {
     private final FileSystemService fileSystemService;
     private final ArchiveHandlerService archiveHandlerService;
     private final ContentSearchService contentSearchService;
+    private final ArchiveSearchMetricsService metricsService;
+    private final ArchiveSearchAuditService auditService;
     private final ExecutorService executorService;
 
     @Autowired
@@ -43,12 +46,16 @@ public class ArchiveSearchService {
                                SecurityValidator securityValidator,
                                FileSystemService fileSystemService,
                                ArchiveHandlerService archiveHandlerService,
-                               ContentSearchService contentSearchService) {
+                               ContentSearchService contentSearchService,
+                               ArchiveSearchMetricsService metricsService,
+                               ArchiveSearchAuditService auditService) {
         this.properties = properties;
         this.securityValidator = securityValidator;
         this.fileSystemService = fileSystemService;
         this.archiveHandlerService = archiveHandlerService;
         this.contentSearchService = contentSearchService;
+        this.metricsService = metricsService;
+        this.auditService = auditService;
         
         // Create thread pool for timeout handling
         this.executorService = Executors.newCachedThreadPool(r -> {
@@ -72,6 +79,15 @@ public class ArchiveSearchService {
      */
     public FileSearchResponse searchFiles(String path, String pattern) 
             throws IOException, IllegalArgumentException, SecurityException, TimeoutException {
+        return searchFiles(path, pattern, null, null, null);
+    }
+    
+    /**
+     * Searches for files with monitoring and audit logging.
+     */
+    public FileSearchResponse searchFiles(String path, String pattern, String sessionId, 
+                                        String userAgent, String remoteAddr) 
+            throws IOException, IllegalArgumentException, SecurityException, TimeoutException {
         
         if (path == null || path.trim().isEmpty()) {
             throw new IllegalArgumentException("Search path cannot be null or empty");
@@ -80,44 +96,98 @@ public class ArchiveSearchService {
             throw new IllegalArgumentException("Search pattern cannot be null or empty");
         }
 
-        logger.info("Starting file search - path: '{}', pattern: '{}'", path, pattern);
+        // Generate session ID if not provided
+        if (sessionId == null) {
+            sessionId = auditService.generateSessionId();
+        }
+
+        logger.info("Starting file search - path: '{}', pattern: '{}', session: '{}'", path, pattern, sessionId);
         long startTime = System.currentTimeMillis();
 
-        // Validate path security
-        if (!securityValidator.isPathAllowed(path)) {
-            throw new SecurityException("Access denied to path: " + path);
-        }
-
-        Path searchPath = Paths.get(path);
-        if (!Files.exists(searchPath)) {
-            logger.warn("Search path does not exist: {}", path);
-            return new FileSearchResponse(new ArrayList<>(), 0, path, pattern, 
-                    System.currentTimeMillis() - startTime);
-        }
-
-        // Execute search with timeout
-        Future<FileSearchResponse> searchTask = executorService.submit(() -> {
-            try {
-                return performFileSearch(searchPath, pattern, path, startTime);
-            } catch (Exception e) {
-                logger.error("Error during file search execution", e);
-                throw new RuntimeException(e);
-            }
-        });
+        // Record metrics and audit
+        metricsService.recordFileSearchRequest();
+        auditService.logFileSearchRequest(sessionId, userAgent, remoteAddr, path, pattern);
 
         try {
-            return searchTask.get(properties.getSearchTimeoutSeconds(), TimeUnit.SECONDS);
-        } catch (java.util.concurrent.TimeoutException e) {
-            searchTask.cancel(true);
-            logger.warn("File search timed out after {} seconds for path: {}", 
-                    properties.getSearchTimeoutSeconds(), path);
-            throw new TimeoutException("Search operation timed out after " + 
-                    properties.getSearchTimeoutSeconds() + " seconds");
+            // Validate path security
+            if (!securityValidator.isPathAllowed(path)) {
+                auditService.logSecurityViolation(sessionId, userAgent, remoteAddr, 
+                        "PATH_ACCESS_DENIED", path, "Path not in allowed list");
+                metricsService.recordSecurityViolation("PATH_ACCESS_DENIED", path);
+                throw new SecurityException("Access denied to path: " + path);
+            }
+
+            Path searchPath = Paths.get(path);
+            if (!Files.exists(searchPath)) {
+                logger.warn("Search path does not exist: {}", path);
+                Duration duration = Duration.ofMillis(System.currentTimeMillis() - startTime);
+                FileSearchResponse response = new FileSearchResponse(new ArrayList<>(), 0, path, pattern, duration.toMillis());
+                
+                metricsService.recordFileSearchSuccess(duration, 0);
+                auditService.logFileSearchSuccess(sessionId, path, pattern, 0, duration.toMillis());
+                
+                return response;
+            }
+
+            // Execute search with timeout
+            Future<FileSearchResponse> searchTask = executorService.submit(() -> {
+                try {
+                    return performFileSearch(searchPath, pattern, path, startTime);
+                } catch (Exception e) {
+                    logger.error("Error during file search execution", e);
+                    throw new RuntimeException(e);
+                }
+            });
+
+            try {
+                FileSearchResponse response = searchTask.get(properties.getSearchTimeoutSeconds(), TimeUnit.SECONDS);
+                Duration duration = Duration.ofMillis(System.currentTimeMillis() - startTime);
+                
+                metricsService.recordFileSearchSuccess(duration, response.getTotalCount());
+                auditService.logFileSearchSuccess(sessionId, path, pattern, response.getTotalCount(), duration.toMillis());
+                
+                return response;
+                
+            } catch (java.util.concurrent.TimeoutException e) {
+                searchTask.cancel(true);
+                Duration duration = Duration.ofMillis(System.currentTimeMillis() - startTime);
+                
+                metricsService.recordTimeout("FILE_SEARCH");
+                metricsService.recordFileSearchFailure(duration, "TIMEOUT");
+                auditService.logOperationTimeout(sessionId, "FILE_SEARCH", path, duration.toMillis());
+                auditService.logFileSearchFailure(sessionId, path, pattern, "TIMEOUT", 
+                        "Search operation timed out", duration.toMillis());
+                
+                logger.warn("File search timed out after {} seconds for path: {}", 
+                        properties.getSearchTimeoutSeconds(), path);
+                throw new TimeoutException("Search operation timed out after " + 
+                        properties.getSearchTimeoutSeconds() + " seconds");
+            }
+            
+        } catch (SecurityException e) {
+            Duration duration = Duration.ofMillis(System.currentTimeMillis() - startTime);
+            metricsService.recordFileSearchFailure(duration, "SECURITY_VIOLATION");
+            auditService.logFileSearchFailure(sessionId, path, pattern, "SECURITY_VIOLATION", e.getMessage(), duration.toMillis());
+            throw e;
+        } catch (IllegalArgumentException e) {
+            Duration duration = Duration.ofMillis(System.currentTimeMillis() - startTime);
+            metricsService.recordFileSearchFailure(duration, "INVALID_ARGUMENT");
+            auditService.logFileSearchFailure(sessionId, path, pattern, "INVALID_ARGUMENT", e.getMessage(), duration.toMillis());
+            throw e;
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+            Duration duration = Duration.ofMillis(System.currentTimeMillis() - startTime);
+            metricsService.recordFileSearchFailure(duration, "INTERRUPTED");
+            auditService.logFileSearchFailure(sessionId, path, pattern, "INTERRUPTED", e.getMessage(), duration.toMillis());
             throw new RuntimeException("Search operation was interrupted", e);
         } catch (ExecutionException e) {
+            Duration duration = Duration.ofMillis(System.currentTimeMillis() - startTime);
             Throwable cause = e.getCause();
+            String errorType = cause.getClass().getSimpleName();
+            
+            metricsService.recordFileSearchFailure(duration, errorType);
+            auditService.logFileSearchFailure(sessionId, path, pattern, errorType, cause.getMessage(), duration.toMillis());
+            
             if (cause instanceof IOException) {
                 throw (IOException) cause;
             } else if (cause instanceof RuntimeException) {
@@ -125,6 +195,11 @@ public class ArchiveSearchService {
             } else {
                 throw new RuntimeException("Search operation failed", cause);
             }
+        } catch (Exception e) {
+            Duration duration = Duration.ofMillis(System.currentTimeMillis() - startTime);
+            metricsService.recordFileSearchFailure(duration, e.getClass().getSimpleName());
+            auditService.logFileSearchFailure(sessionId, path, pattern, e.getClass().getSimpleName(), e.getMessage(), duration.toMillis());
+            throw e;
         }
     }
 
@@ -140,18 +215,75 @@ public class ArchiveSearchService {
      */
     public InputStream downloadFile(String filePath) 
             throws IOException, IllegalArgumentException, SecurityException {
+        return downloadFile(filePath, null, null, null);
+    }
+    
+    /**
+     * Downloads a file with monitoring and audit logging.
+     */
+    public InputStream downloadFile(String filePath, String sessionId, String userAgent, String remoteAddr) 
+            throws IOException, IllegalArgumentException, SecurityException {
         
         if (filePath == null || filePath.trim().isEmpty()) {
             throw new IllegalArgumentException("File path cannot be null or empty");
         }
 
-        logger.info("Starting file download for path: '{}'", filePath);
+        // Generate session ID if not provided
+        if (sessionId == null) {
+            sessionId = auditService.generateSessionId();
+        }
 
-        // Check if this is an archive entry (contains archive path separator)
-        if (filePath.contains("::")) {
-            return downloadArchiveEntry(filePath);
-        } else {
-            return downloadRegularFile(filePath);
+        logger.info("Starting file download for path: '{}', session: '{}'", filePath, sessionId);
+        long startTime = System.currentTimeMillis();
+
+        // Record metrics and audit
+        metricsService.recordDownloadRequest();
+        auditService.logDownloadRequest(sessionId, userAgent, remoteAddr, filePath);
+
+        try {
+            InputStream inputStream;
+            long fileSize = 0;
+            
+            // Check if this is an archive entry (contains archive path separator)
+            if (filePath.contains("::")) {
+                inputStream = downloadArchiveEntry(filePath);
+                // For archive entries, we can't easily determine size beforehand
+                fileSize = -1;
+            } else {
+                // For regular files, get size before download
+                Path file = Paths.get(filePath);
+                if (Files.exists(file) && Files.isRegularFile(file)) {
+                    fileSize = Files.size(file);
+                }
+                inputStream = downloadRegularFile(filePath);
+            }
+            
+            Duration duration = Duration.ofMillis(System.currentTimeMillis() - startTime);
+            metricsService.recordDownloadSuccess(duration, fileSize > 0 ? fileSize : 0);
+            auditService.logDownloadSuccess(sessionId, filePath, fileSize, duration.toMillis());
+            
+            return inputStream;
+            
+        } catch (SecurityException e) {
+            Duration duration = Duration.ofMillis(System.currentTimeMillis() - startTime);
+            metricsService.recordDownloadFailure(duration, "SECURITY_VIOLATION");
+            auditService.logDownloadFailure(sessionId, filePath, "SECURITY_VIOLATION", e.getMessage(), duration.toMillis());
+            throw e;
+        } catch (IllegalArgumentException e) {
+            Duration duration = Duration.ofMillis(System.currentTimeMillis() - startTime);
+            metricsService.recordDownloadFailure(duration, "INVALID_ARGUMENT");
+            auditService.logDownloadFailure(sessionId, filePath, "INVALID_ARGUMENT", e.getMessage(), duration.toMillis());
+            throw e;
+        } catch (IOException e) {
+            Duration duration = Duration.ofMillis(System.currentTimeMillis() - startTime);
+            metricsService.recordDownloadFailure(duration, "IO_ERROR");
+            auditService.logDownloadFailure(sessionId, filePath, "IO_ERROR", e.getMessage(), duration.toMillis());
+            throw e;
+        } catch (Exception e) {
+            Duration duration = Duration.ofMillis(System.currentTimeMillis() - startTime);
+            metricsService.recordDownloadFailure(duration, e.getClass().getSimpleName());
+            auditService.logDownloadFailure(sessionId, filePath, e.getClass().getSimpleName(), e.getMessage(), duration.toMillis());
+            throw e;
         }
     }
 
@@ -190,6 +322,15 @@ public class ArchiveSearchService {
      */
     public ContentSearchResponse searchContent(ContentSearchRequest request) 
             throws IOException, IllegalArgumentException, SecurityException, TimeoutException {
+        return searchContent(request, null, null, null);
+    }
+    
+    /**
+     * Searches content with monitoring and audit logging.
+     */
+    public ContentSearchResponse searchContent(ContentSearchRequest request, String sessionId, 
+                                             String userAgent, String remoteAddr) 
+            throws IOException, IllegalArgumentException, SecurityException, TimeoutException {
         
         if (request == null) {
             throw new IllegalArgumentException("Content search request cannot be null");
@@ -201,37 +342,87 @@ public class ArchiveSearchService {
             throw new IllegalArgumentException("Search term cannot be null or empty");
         }
 
-        logger.info("Starting content search - file: '{}', term: '{}'", 
-                request.getFilePath(), request.getSearchTerm());
+        // Generate session ID if not provided
+        if (sessionId == null) {
+            sessionId = auditService.generateSessionId();
+        }
 
-        // Execute content search with timeout
-        Future<ContentSearchResponse> searchTask = executorService.submit(() -> {
-            try {
-                // Check if this is an archive entry
-                if (request.getFilePath().contains("::")) {
-                    return searchContentInArchiveEntry(request);
-                } else {
-                    return searchContentInRegularFile(request);
-                }
-            } catch (Exception e) {
-                logger.error("Error during content search execution", e);
-                throw new RuntimeException(e);
-            }
-        });
+        logger.info("Starting content search - file: '{}', term: '{}', session: '{}'", 
+                request.getFilePath(), request.getSearchTerm(), sessionId);
+        long startTime = System.currentTimeMillis();
+
+        // Record metrics and audit
+        metricsService.recordContentSearchRequest();
+        auditService.logContentSearchRequest(sessionId, userAgent, remoteAddr, 
+                request.getFilePath(), request.getSearchTerm(), 
+                request.getCaseSensitive() != null ? request.getCaseSensitive() : false);
 
         try {
-            return searchTask.get(properties.getSearchTimeoutSeconds(), TimeUnit.SECONDS);
-        } catch (java.util.concurrent.TimeoutException e) {
-            searchTask.cancel(true);
-            logger.warn("Content search timed out after {} seconds for file: {}", 
-                    properties.getSearchTimeoutSeconds(), request.getFilePath());
-            throw new TimeoutException("Content search operation timed out after " + 
-                    properties.getSearchTimeoutSeconds() + " seconds");
+            // Execute content search with timeout
+            Future<ContentSearchResponse> searchTask = executorService.submit(() -> {
+                try {
+                    // Check if this is an archive entry
+                    if (request.getFilePath().contains("::")) {
+                        return searchContentInArchiveEntry(request);
+                    } else {
+                        return searchContentInRegularFile(request);
+                    }
+                } catch (Exception e) {
+                    logger.error("Error during content search execution", e);
+                    throw new RuntimeException(e);
+                }
+            });
+
+            try {
+                ContentSearchResponse response = searchTask.get(properties.getSearchTimeoutSeconds(), TimeUnit.SECONDS);
+                Duration duration = Duration.ofMillis(System.currentTimeMillis() - startTime);
+                
+                metricsService.recordContentSearchSuccess(duration, response.getTotalMatches(), response.isTruncated());
+                auditService.logContentSearchSuccess(sessionId, request.getFilePath(), 
+                        response.getTotalMatches(), response.isTruncated(), duration.toMillis());
+                
+                return response;
+                
+            } catch (java.util.concurrent.TimeoutException e) {
+                searchTask.cancel(true);
+                Duration duration = Duration.ofMillis(System.currentTimeMillis() - startTime);
+                
+                metricsService.recordTimeout("CONTENT_SEARCH");
+                metricsService.recordContentSearchFailure(duration, "TIMEOUT");
+                auditService.logOperationTimeout(sessionId, "CONTENT_SEARCH", request.getFilePath(), duration.toMillis());
+                auditService.logContentSearchFailure(sessionId, request.getFilePath(), "TIMEOUT", 
+                        "Content search operation timed out", duration.toMillis());
+                
+                logger.warn("Content search timed out after {} seconds for file: {}", 
+                        properties.getSearchTimeoutSeconds(), request.getFilePath());
+                throw new TimeoutException("Content search operation timed out after " + 
+                        properties.getSearchTimeoutSeconds() + " seconds");
+            }
+            
+        } catch (SecurityException e) {
+            Duration duration = Duration.ofMillis(System.currentTimeMillis() - startTime);
+            metricsService.recordContentSearchFailure(duration, "SECURITY_VIOLATION");
+            auditService.logContentSearchFailure(sessionId, request.getFilePath(), "SECURITY_VIOLATION", e.getMessage(), duration.toMillis());
+            throw e;
+        } catch (IllegalArgumentException e) {
+            Duration duration = Duration.ofMillis(System.currentTimeMillis() - startTime);
+            metricsService.recordContentSearchFailure(duration, "INVALID_ARGUMENT");
+            auditService.logContentSearchFailure(sessionId, request.getFilePath(), "INVALID_ARGUMENT", e.getMessage(), duration.toMillis());
+            throw e;
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+            Duration duration = Duration.ofMillis(System.currentTimeMillis() - startTime);
+            metricsService.recordContentSearchFailure(duration, "INTERRUPTED");
+            auditService.logContentSearchFailure(sessionId, request.getFilePath(), "INTERRUPTED", e.getMessage(), duration.toMillis());
             throw new RuntimeException("Content search operation was interrupted", e);
         } catch (ExecutionException e) {
+            Duration duration = Duration.ofMillis(System.currentTimeMillis() - startTime);
             Throwable cause = e.getCause();
+            String errorType = cause.getClass().getSimpleName();
+            
+            metricsService.recordContentSearchFailure(duration, errorType);
+            auditService.logContentSearchFailure(sessionId, request.getFilePath(), errorType, cause.getMessage(), duration.toMillis());
+            
             if (cause instanceof IOException) {
                 throw (IOException) cause;
             } else if (cause instanceof RuntimeException) {
@@ -239,6 +430,11 @@ public class ArchiveSearchService {
             } else {
                 throw new RuntimeException("Content search operation failed", cause);
             }
+        } catch (Exception e) {
+            Duration duration = Duration.ofMillis(System.currentTimeMillis() - startTime);
+            metricsService.recordContentSearchFailure(duration, e.getClass().getSimpleName());
+            auditService.logContentSearchFailure(sessionId, request.getFilePath(), e.getClass().getSimpleName(), e.getMessage(), duration.toMillis());
+            throw e;
         }
     }
 

@@ -16,11 +16,17 @@ logging:
   level:
     com.fabric.watcher: DEBUG
     org.springframework: INFO
+    ARCHIVE_SEARCH_AUDIT: INFO
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%X{correlationId:-}] [%X{fileName:-}] [%X{processorType:-}] %logger{36} - %msg%n"
-    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%X{correlationId:-}] [%X{fileName:-}] [%X{processorType:-}] %logger{36} - %msg%n"
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%X{correlationId:-}] [%X{fileName:-}] [%X{processorType:-}] [%X{eventType:-}] [%X{sessionId:-}] %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%X{correlationId:-}] [%X{fileName:-}] [%X{processorType:-}] [%X{eventType:-}] [%X{sessionId:-}] %logger{36} - %msg%n"
   file:
     name: logs/file-watcher.log
+  logback:
+    rollingpolicy:
+      max-file-size: 100MB
+      max-history: 30
+      total-size-cap: 3GB
 
 management:
   endpoints:
