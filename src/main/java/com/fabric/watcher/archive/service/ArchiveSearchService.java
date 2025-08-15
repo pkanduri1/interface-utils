@@ -159,6 +159,28 @@ public class ArchiveSearchService {
      * Searches for content within a specific file.
      * Supports both regular files and files within archives.
      * 
+     * @param filePath the path to the file to search in
+     * @param searchTerm the text to search for
+     * @param caseSensitive whether the search should be case sensitive
+     * @param wholeWord whether to match whole words only
+     * @return ContentSearchResponse containing search results
+     * @throws IOException if file cannot be accessed or read
+     * @throws IllegalArgumentException if parameters are invalid
+     * @throws SecurityException if file access is denied
+     * @throws TimeoutException if search operation times out
+     */
+    public ContentSearchResponse searchContent(String filePath, String searchTerm, 
+                                             Boolean caseSensitive, Boolean wholeWord) 
+            throws IOException, IllegalArgumentException, SecurityException, TimeoutException {
+        
+        ContentSearchRequest request = new ContentSearchRequest(filePath, searchTerm, caseSensitive, wholeWord);
+        return searchContent(request);
+    }
+
+    /**
+     * Searches for content within a specific file.
+     * Supports both regular files and files within archives.
+     * 
      * @param request the content search request
      * @return ContentSearchResponse containing search results
      * @throws IOException if file cannot be accessed or read
@@ -413,6 +435,27 @@ public class ArchiveSearchService {
      */
     public boolean isPathAllowed(String path) {
         return securityValidator.isPathAllowed(path);
+    }
+
+    /**
+     * Gets the current API status and configuration information.
+     * 
+     * @return API status object containing configuration and runtime information
+     */
+    public Object getApiStatus() {
+        java.util.Map<String, Object> status = new java.util.HashMap<>();
+        
+        status.put("enabled", properties.isEnabled());
+        status.put("environment", System.getProperty("spring.profiles.active", "unknown"));
+        status.put("version", "1.0.0");
+        status.put("supportedArchiveTypes", properties.getSupportedArchiveTypes());
+        status.put("maxFileSize", properties.getMaxFileSize());
+        status.put("maxSearchResults", properties.getMaxSearchResults());
+        status.put("searchTimeoutSeconds", properties.getSearchTimeoutSeconds());
+        status.put("allowedPaths", properties.getAllowedPaths());
+        status.put("excludedPaths", properties.getExcludedPaths());
+        
+        return status;
     }
 
     /**

@@ -37,6 +37,32 @@ management:
       prometheus:
         enabled: true
 
+# Swagger/OpenAPI Configuration
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs
+    groups:
+      enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    display-request-duration: true
+    groups-order: DESC
+    operations-sorter: method
+    disable-swagger-default-url: true
+    use-root-path: true
+  group-configs:
+    - group: archive-search
+      paths-to-match: /api/v1/archive/**
+      display-name: Archive Search API
+    - group: file-watcher
+      paths-to-match: /api/file-watcher/**
+      display-name: File Watcher API
+    - group: monitoring
+      paths-to-match: /api/monitoring/**
+      display-name: Monitoring API
+
 file-watcher:
   global:
     max-retry-attempts: 3
