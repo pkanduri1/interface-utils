@@ -97,3 +97,26 @@ resilience4j:
         waitDurationInOpenState: 1s
         slidingWindowSize: 5
         minimumNumberOfCalls: 3
+
+# Archive Search API Configuration - Enabled for testing
+archive:
+  search:
+    enabled: true  # Enabled for testing
+    allowed-paths:
+      - "./test-data/archive"
+      - "./test-data/temp"
+      - "./test-data/sql-scripts"
+      - "./test-data/sqlloader-logs"
+    excluded-paths:
+      - "./config"
+      - "./logs"
+    max-file-size: 10485760  # 10MB for tests
+    max-search-results: 20
+    search-timeout-seconds: 5
+    supported-archive-types:
+      - zip
+      - tar
+      - jar
+    max-concurrent-operations: 2
+    audit-logging-enabled: false  # Disabled for faster tests
+    max-directory-depth: 3

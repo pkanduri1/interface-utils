@@ -108,3 +108,28 @@ resilience4j:
         waitDurationInOpenState: 5s
         slidingWindowSize: 10
         minimumNumberOfCalls: 5
+
+# Archive Search API Configuration - Enabled in development
+archive:
+  search:
+    enabled: true  # Enabled for development and testing
+    allowed-paths:
+      - "./dev-data/archive"
+      - "./dev-data/temp"
+      - "./dev-data/sql-scripts"
+      - "./dev-data/sqlloader-logs"
+    excluded-paths:
+      - "./config"
+      - "./logs"
+      - "./dev-data/sensitive"
+    max-file-size: 52428800  # 50MB for dev
+    max-search-results: 50
+    search-timeout-seconds: 15
+    supported-archive-types:
+      - zip
+      - tar
+      - tar.gz
+      - jar
+    max-concurrent-operations: 3
+    audit-logging-enabled: true
+    max-directory-depth: 5

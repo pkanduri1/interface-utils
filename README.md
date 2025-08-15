@@ -6,6 +6,7 @@ A comprehensive Spring Boot service that provides automated interface utilities 
 
 - **Multi-folder Monitoring**: Monitor multiple directories simultaneously with different configurations
 - **Pluggable Processors**: Support for SQL script execution and SQL*Loader log processing
+- **Archive Search API**: Search and download files from directories and archives (non-production only)
 - **Transaction Safety**: Proper transaction management for database operations
 - **Error Handling**: Comprehensive error handling with retry mechanisms and circuit breakers
 - **Monitoring & Observability**: Built-in health checks, metrics, and structured logging
@@ -45,6 +46,7 @@ A comprehensive Spring Boot service that provides automated interface utilities 
    - Application: http://localhost:8080
    - Health Check: http://localhost:8080/actuator/health
    - Metrics: http://localhost:8080/actuator/metrics
+   - Swagger UI (dev/test only): http://localhost:8080/swagger-ui.html
    - H2 Console (dev only): http://localhost:8080/h2-console
 
 ## Configuration
@@ -111,6 +113,116 @@ For production deployment, use environment variables:
 | `SQL_WATCH_FOLDER` | SQL scripts watch folder | `./sql-scripts` |
 | `LOG_LEVEL_APP` | Application log level | `INFO` |
 | `SERVER_PORT` | Server port | `8080` |
+| `ARCHIVE_SEARCH_ENABLED` | Enable Archive Search API | `false` |
+
+## Deployment Configuration
+
+### Environment-Specific Settings
+
+The application uses profile-based configuration for different environments:
+
+#### Development Environment (`dev` profile)
+- H2 in-memory database with console enabled
+- Debug logging enabled
+- Archive Search API enabled
+- Fast polling intervals for quick feedback
+- Lenient circuit breaker settings
+
+```bash
+java -jar database-script-watcher.jar --spring.profiles.active=dev
+```
+
+#### Test Environment (`test` profile)
+- H2 in-memory database
+- Minimal logging
+- Archive Search API enabled with restricted limits
+- Fast polling for quick test execution
+- Strict circuit breaker settings for fast failure
+
+```bash
+java -jar database-script-watcher.jar --spring.profiles.active=test
+```
+
+#### Production Environment (`prod` profile)
+- PostgreSQL database
+- INFO level logging
+- Archive Search API **DISABLED** for security
+- Optimized polling intervals
+- Conservative circuit breaker settings
+- Swagger UI disabled
+
+```bash
+java -jar database-script-watcher.jar --spring.profiles.active=prod
+```
+
+### Archive Search API Security Configuration
+
+**⚠️ CRITICAL SECURITY NOTICE:**
+
+The Archive Search API is automatically disabled in production environments. This is enforced through:
+
+1. **Environment Detection**: The application detects production environment and disables the API
+2. **Configuration Override**: Production profile explicitly sets `archive.search.enabled: false`
+3. **Conditional Bean Creation**: API controllers are only created when enabled
+4. **Swagger Integration**: API endpoints are hidden in production
+
+**To ensure security in production:**
+
+```yaml
+# production configuration
+archive:
+  search:
+    enabled: false  # NEVER set to true in production
+```
+
+**Environment Variables for Production:**
+```bash
+export SPRING_PROFILES_ACTIVE=prod
+export ARCHIVE_SEARCH_ENABLED=false  # Explicit override
+```
+
+### Docker Deployment
+
+```dockerfile
+# Dockerfile example
+FROM openjdk:17-jre-slim
+
+COPY target/database-script-watcher-*.jar app.jar
+
+# Production environment variables
+ENV SPRING_PROFILES_ACTIVE=prod
+ENV ARCHIVE_SEARCH_ENABLED=false
+ENV DATABASE_URL=jdbc:postgresql://db:5432/filewatcher
+
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "/app.jar"]
+```
+
+### Kubernetes Deployment
+
+```yaml
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database-script-watcher
+spec:
+  template:
+    spec:
+      containers:
+      - name: app
+        image: database-script-watcher:latest
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "prod"
+        - name: ARCHIVE_SEARCH_ENABLED
+          value: "false"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: url
+```
 
 ## File Processors
 
@@ -156,6 +268,84 @@ sqlloader-logs:
   enabled: false
 ```
 
+### Archive Search API
+
+**⚠️ SECURITY NOTICE: This API is only available in non-production environments (dev/test) for security reasons.**
+
+The Archive Search API provides REST endpoints for searching and downloading files from both regular directories and archive files. This feature is designed for development and testing purposes only.
+
+**Features:**
+- File search with wildcard patterns (`*`, `?`)
+- Content search within files
+- Archive file support (ZIP, TAR, JAR, etc.)
+- File download with streaming support
+- Path traversal protection
+- Environment-based access control
+
+**Supported Archive Types:** `*.zip`, `*.tar`, `*.tar.gz`, `*.jar`, `*.war`, `*.ear`
+
+**Configuration:**
+```yaml
+archive:
+  search:
+    enabled: true  # Only in dev/test environments
+    allowed-paths:
+      - "./data/archive"
+      - "./sql-scripts"
+    excluded-paths:
+      - "./config"
+      - "./logs"
+    max-file-size: 104857600  # 100MB
+    max-search-results: 100
+    search-timeout-seconds: 30
+```
+
+**API Endpoints:**
+
+1. **Search Files**
+   ```http
+   GET /api/v1/archive/search?path=/data/archive&pattern=*.sql
+   ```
+   
+2. **Download File**
+   ```http
+   GET /api/v1/archive/download?filePath=/data/archive/script.sql
+   ```
+   
+3. **Search Content**
+   ```http
+   POST /api/v1/archive/content-search
+   Content-Type: application/json
+   
+   {
+     "filePath": "/data/archive/script.sql",
+     "searchTerm": "SELECT",
+     "caseSensitive": false
+   }
+   ```
+
+**Example Usage:**
+
+```bash
+# Search for SQL files
+curl "http://localhost:8080/api/v1/archive/search?path=./sql-scripts&pattern=*.sql"
+
+# Download a specific file
+curl "http://localhost:8080/api/v1/archive/download?filePath=./sql-scripts/migration.sql" -o migration.sql
+
+# Search for content within files
+curl -X POST "http://localhost:8080/api/v1/archive/content-search" \
+  -H "Content-Type: application/json" \
+  -d '{"filePath": "./sql-scripts/migration.sql", "searchTerm": "CREATE TABLE"}'
+```
+
+**Security Features:**
+- Path traversal prevention (blocks `../` attempts)
+- Allowed/excluded path validation
+- File size limits
+- Operation timeouts
+- Audit logging of all access attempts
+
 ## API Endpoints
 
 ### Health and Monitoring
@@ -176,6 +366,12 @@ sqlloader-logs:
 
 - `GET /api/monitoring/metrics` - Detailed metrics
 - `GET /api/monitoring/health` - Comprehensive health check
+
+### Archive Search API (Non-Production Only)
+
+- `GET /api/v1/archive/search` - Search for files using wildcard patterns
+- `GET /api/v1/archive/download` - Download files from directories or archives
+- `POST /api/v1/archive/content-search` - Search within file contents
 
 ## Directory Structure
 
@@ -227,12 +423,16 @@ The application exposes Prometheus-compatible metrics:
 - `file_watcher_processing_duration_seconds` - Processing duration
 - `file_watcher_errors_total` - Total processing errors
 - `database_connections_active` - Active database connections
+- `archive_search_requests_total` - Total archive search requests (dev/test only)
+- `archive_search_duration_seconds` - Archive search operation duration
+- `archive_search_files_found_total` - Total files found in searches
 
 ### Health Checks
 
 - **Database Health**: Checks database connectivity
 - **File System Health**: Checks watched folder accessibility
 - **Circuit Breaker Health**: Monitors circuit breaker states
+- **Archive Search Health**: Validates archive search configuration and accessibility (dev/test only)
 
 ## Error Handling
 
@@ -322,6 +522,17 @@ public class CustomProcessor implements FileProcessor {
    - Review connection pool settings
    - Monitor garbage collection
 
+4. **Archive Search API not available**
+   - Verify running in dev or test environment
+   - Check `archive.search.enabled` configuration
+   - Ensure not running with `prod` profile
+   - Review Swagger UI at `/swagger-ui.html`
+
+5. **Archive Search permission errors**
+   - Verify paths are in `allowed-paths` configuration
+   - Check file system permissions
+   - Review audit logs for security violations
+
 ### Debug Mode
 
 Enable debug logging for troubleshooting:
@@ -347,6 +558,11 @@ Key log patterns to monitor:
 - **Database Credentials**: Use encrypted passwords in production
 - **API Security**: Implement authentication for control endpoints
 - **Audit Logging**: All SQL executions are logged for security auditing
+- **Archive Search Security**: 
+  - API automatically disabled in production environments
+  - Path traversal protection prevents unauthorized file access
+  - File access attempts are audited and logged
+  - Configurable allowed/excluded paths for access control
 
 ## Performance Tuning
 

@@ -97,14 +97,19 @@ file-watcher:
 
 # Resilience4j Configuration
 # Archive Search API Configuration
+# This API is only enabled in non-production environments for security
 archive:
   search:
     enabled: ${ARCHIVE_SEARCH_ENABLED:false}
     allowed-paths:
       - "./data/archive"
       - "./temp/search"
+      - "./sql-scripts"
+      - "./sqlloader-logs"
     excluded-paths:
       - "./data/archive/sensitive"
+      - "./config"
+      - "./logs"
     max-file-size: 104857600  # 100MB
     max-search-results: 100
     search-timeout-seconds: 30
@@ -113,9 +118,14 @@ archive:
       - tar
       - tar.gz
       - jar
+      - war
+      - ear
     max-concurrent-operations: 5
     audit-logging-enabled: true
     max-directory-depth: 10
+    # Security settings
+    path-traversal-protection: true
+    file-type-validation: true
 
 resilience4j:
   circuitbreaker:

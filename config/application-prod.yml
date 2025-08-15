@@ -139,3 +139,25 @@ server:
     min-spare-threads: ${TOMCAT_MIN_THREADS:10}
     max-connections: ${TOMCAT_MAX_CONNECTIONS:8192}
     accept-count: ${TOMCAT_ACCEPT_COUNT:100}
+
+# Archive Search API Configuration - DISABLED in production for security
+archive:
+  search:
+    enabled: false  # NEVER enable in production
+    # Configuration kept for reference but API will be disabled
+    allowed-paths: []
+    excluded-paths: []
+    max-file-size: 0
+    max-search-results: 0
+    search-timeout-seconds: 0
+    supported-archive-types: []
+    max-concurrent-operations: 0
+    audit-logging-enabled: false
+    max-directory-depth: 0
+
+# Swagger/OpenAPI Configuration - Disabled in production
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
