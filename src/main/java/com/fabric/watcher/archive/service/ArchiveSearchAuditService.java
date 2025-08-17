@@ -43,7 +43,10 @@ public class ArchiveSearchAuditService {
         UNAUTHORIZED_ACCESS,
         OPERATION_TIMEOUT,
         ARCHIVE_PROCESSING,
-        API_ACCESS
+        API_ACCESS,
+        AUTHENTICATION_SUCCESS,
+        AUTHENTICATION_FAILURE,
+        LOGOUT_SUCCESS
     }
     
     public ArchiveSearchAuditService(ObjectMapper objectMapper) {
@@ -357,6 +360,25 @@ public class ArchiveSearchAuditService {
         return sanitized;
     }
     
+    /**
+     * Log authentication attempt.
+     */
+    public void logAuthentication(String userId, boolean success, String ipAddress, String details) {
+        AuditEventType eventType = success ? AuditEventType.AUTHENTICATION_SUCCESS : AuditEventType.AUTHENTICATION_FAILURE;
+        
+        AuditEvent event = createBaseEvent(eventType, generateSessionId())
+                .addDetail("userId", userId)
+                .addDetail("remoteAddr", ipAddress)
+                .addDetail("details", details)
+                .addDetail("severity", success ? "INFO" : "MEDIUM");
+        
+        logAuditEvent(event);
+        
+        if (!success) {
+            logger.warn("Authentication failed for user: {} from IP: {} - {}", userId, ipAddress, details);
+        }
+    }
+
     /**
      * Generate a session ID for tracking related operations.
      */

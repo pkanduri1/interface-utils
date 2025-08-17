@@ -74,7 +74,12 @@ public class ArchiveSearchException extends RuntimeException {
         IO_ERROR("ARCH008", "Input/output error occurred"),
         SECURITY_VIOLATION("ARCH009", "Security violation detected"),
         LDAP_CONNECTION_ERROR("ARCH010", "LDAP connection error"),
-        AUTHENTICATION_FAILED("ARCH011", "Authentication failed");
+        AUTHENTICATION_FAILED("ARCH011", "Authentication failed"),
+        INVALID_TOKEN("ARCH012", "Invalid authentication token"),
+        TOKEN_EXPIRED("ARCH013", "Authentication token has expired"),
+        TOKEN_GENERATION_ERROR("ARCH014", "Failed to generate authentication token"),
+        INVALID_REQUEST("ARCH015", "Invalid request parameters"),
+        USER_LOCKED_OUT("ARCH016", "User account is temporarily locked");
 
         private final String code;
         private final String defaultMessage;

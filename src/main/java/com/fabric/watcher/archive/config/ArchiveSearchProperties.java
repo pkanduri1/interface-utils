@@ -108,6 +108,12 @@ public class ArchiveSearchProperties {
     @NotNull
     private AuditConfig audit = new AuditConfig();
 
+    /**
+     * Security configuration for authentication and authorization.
+     */
+    @NotNull
+    private SecurityConfig security = new SecurityConfig();
+
     // Getters and Setters
 
     public boolean isEnabled() {
@@ -214,6 +220,14 @@ public class ArchiveSearchProperties {
         this.audit = audit;
     }
 
+    public SecurityConfig getSecurity() {
+        return security;
+    }
+
+    public void setSecurity(SecurityConfig security) {
+        this.security = security;
+    }
+
     @Override
     public String toString() {
         return "ArchiveSearchProperties{" +
@@ -230,6 +244,7 @@ public class ArchiveSearchProperties {
                 ", ldap=" + ldap +
                 ", upload=" + upload +
                 ", audit=" + audit +
+                ", security=" + security +
                 '}';
     }
 
@@ -600,6 +615,121 @@ public class ArchiveSearchProperties {
                     ", logPattern='" + logPattern + '\'' +
                     ", logToConsole=" + logToConsole +
                     ", compressRotatedFiles=" + compressRotatedFiles +
+                    '}';
+        }
+    }
+
+    /**
+     * Security configuration properties.
+     */
+    public static class SecurityConfig {
+        
+        /**
+         * Session timeout in minutes.
+         */
+        @Min(1)
+        private int sessionTimeoutMinutes = 30;
+
+        /**
+         * Maximum number of failed login attempts before lockout.
+         */
+        @Min(1)
+        private int maxLoginAttempts = 3;
+
+        /**
+         * Lockout duration in minutes after max failed attempts.
+         */
+        @Min(1)
+        private int lockoutDurationMinutes = 15;
+
+        /**
+         * Whether to require authentication for all operations.
+         */
+        private boolean requireAuthentication = true;
+
+        /**
+         * JWT secret key (will be generated if not provided).
+         */
+        private String jwtSecret;
+
+        /**
+         * Whether to enable CSRF protection.
+         */
+        private boolean enableCsrfProtection = false;
+
+        /**
+         * List of IP addresses allowed to bypass authentication (for testing).
+         */
+        private List<String> allowedIpAddresses = new ArrayList<>();
+
+        // Getters and Setters
+
+        public int getSessionTimeoutMinutes() {
+            return sessionTimeoutMinutes;
+        }
+
+        public void setSessionTimeoutMinutes(int sessionTimeoutMinutes) {
+            this.sessionTimeoutMinutes = sessionTimeoutMinutes;
+        }
+
+        public int getMaxLoginAttempts() {
+            return maxLoginAttempts;
+        }
+
+        public void setMaxLoginAttempts(int maxLoginAttempts) {
+            this.maxLoginAttempts = maxLoginAttempts;
+        }
+
+        public int getLockoutDurationMinutes() {
+            return lockoutDurationMinutes;
+        }
+
+        public void setLockoutDurationMinutes(int lockoutDurationMinutes) {
+            this.lockoutDurationMinutes = lockoutDurationMinutes;
+        }
+
+        public boolean isRequireAuthentication() {
+            return requireAuthentication;
+        }
+
+        public void setRequireAuthentication(boolean requireAuthentication) {
+            this.requireAuthentication = requireAuthentication;
+        }
+
+        public String getJwtSecret() {
+            return jwtSecret;
+        }
+
+        public void setJwtSecret(String jwtSecret) {
+            this.jwtSecret = jwtSecret;
+        }
+
+        public boolean isEnableCsrfProtection() {
+            return enableCsrfProtection;
+        }
+
+        public void setEnableCsrfProtection(boolean enableCsrfProtection) {
+            this.enableCsrfProtection = enableCsrfProtection;
+        }
+
+        public List<String> getAllowedIpAddresses() {
+            return allowedIpAddresses;
+        }
+
+        public void setAllowedIpAddresses(List<String> allowedIpAddresses) {
+            this.allowedIpAddresses = allowedIpAddresses;
+        }
+
+        @Override
+        public String toString() {
+            return "SecurityConfig{" +
+                    "sessionTimeoutMinutes=" + sessionTimeoutMinutes +
+                    ", maxLoginAttempts=" + maxLoginAttempts +
+                    ", lockoutDurationMinutes=" + lockoutDurationMinutes +
+                    ", requireAuthentication=" + requireAuthentication +
+                    ", jwtSecret='[PROTECTED]'" +
+                    ", enableCsrfProtection=" + enableCsrfProtection +
+                    ", allowedIpAddresses=" + allowedIpAddresses +
                     '}';
         }
     }
