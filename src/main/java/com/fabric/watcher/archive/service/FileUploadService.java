@@ -220,7 +220,7 @@ public class FileUploadService {
         }
 
         // Check if path is allowed
-        if (!securityValidator.isPathAllowed(sanitizedPath)) {
+        if (!securityValidator.isPathAllowed(sanitizedPath, properties.getAllowedPaths())) {
             throw new ArchiveSearchException(ArchiveSearchException.ErrorCode.PATH_NOT_ALLOWED, 
                 "Target path is not within allowed directories");
         }

@@ -1,0 +1,103 @@
+-------------------------------------------------------------------------------
+Test set: com.fabric.watcher.archive.security.TokenExpirationSecurityTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 5, Errors: 0, Skipped: 0, Time elapsed: 0.969 s <<< FAILURE! -- in com.fabric.watcher.archive.security.TokenExpirationSecurityTest
+com.fabric.watcher.archive.security.TokenExpirationSecurityTest.testTokenValidationSecurity -- Time elapsed: 0.020 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <com.fabric.watcher.archive.exception.ArchiveSearchException> but was: <io.jsonwebtoken.security.SignatureException>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3128)
+	at com.fabric.watcher.archive.security.TokenExpirationSecurityTest.testTokenValidationSecurity(TokenExpirationSecurityTest.java:130)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+	at io.jsonwebtoken.impl.DefaultJwtParser.verifySignature(DefaultJwtParser.java:340)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:579)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:364)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:94)
+	at io.jsonwebtoken.impl.io.AbstractParser.parse(AbstractParser.java:36)
+	at io.jsonwebtoken.impl.io.AbstractParser.parse(AbstractParser.java:29)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parseSignedClaims(DefaultJwtParser.java:830)
+	at com.fabric.watcher.archive.service.JwtTokenService.validateToken(JwtTokenService.java:108)
+	at com.fabric.watcher.archive.security.TokenExpirationSecurityTest.lambda$testTokenValidationSecurity$0(TokenExpirationSecurityTest.java:131)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
+	... 6 more
+
+com.fabric.watcher.archive.security.TokenExpirationSecurityTest.testTokenReplayAttackPrevention -- Time elapsed: 0.009 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <com.fabric.watcher.archive.exception.ArchiveSearchException> but was: <io.jsonwebtoken.security.WeakKeyException>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3128)
+	at com.fabric.watcher.archive.security.TokenExpirationSecurityTest.testTokenReplayAttackPrevention(TokenExpirationSecurityTest.java:334)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: io.jsonwebtoken.security.WeakKeyException: The verification key's size is 256 bits which is not secure enough for the HS384 algorithm. The JWT JWA Specification (RFC 7518, Section 3.2) states that keys used with HS384 MUST have a size >= 384 bits (the key size must be greater than or equal to the hash output size). Consider using the Jwts.SIG.HS384.key() builder to create a key guaranteed to be secure enough for HS384.  See https://tools.ietf.org/html/rfc7518#section-3.2 for more information.
+	at io.jsonwebtoken.impl.security.DefaultMacAlgorithm.validateKey(DefaultMacAlgorithm.java:197)
+	at io.jsonwebtoken.impl.security.AbstractSecureDigestAlgorithm.verify(AbstractSecureDigestAlgorithm.java:67)
+	at io.jsonwebtoken.impl.security.AbstractSecureDigestAlgorithm.verify(AbstractSecureDigestAlgorithm.java:29)
+	at io.jsonwebtoken.impl.DefaultJwtParser.verifySignature(DefaultJwtParser.java:337)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:579)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:364)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:94)
+	at io.jsonwebtoken.impl.io.AbstractParser.parse(AbstractParser.java:36)
+	at io.jsonwebtoken.impl.io.AbstractParser.parse(AbstractParser.java:29)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parseSignedClaims(DefaultJwtParser.java:830)
+	at com.fabric.watcher.archive.service.JwtTokenService.validateToken(JwtTokenService.java:108)
+	at com.fabric.watcher.archive.security.TokenExpirationSecurityTest.lambda$testTokenReplayAttackPrevention$11(TokenExpirationSecurityTest.java:335)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
+	... 6 more
+
+com.fabric.watcher.archive.security.TokenExpirationSecurityTest.testTokenExpirationValidation -- Time elapsed: 0.009 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <false> but was: <true>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertFalse.failNotFalse(AssertFalse.java:63)
+	at org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:36)
+	at org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:31)
+	at org.junit.jupiter.api.Assertions.assertFalse(Assertions.java:231)
+	at com.fabric.watcher.archive.security.TokenExpirationSecurityTest.testTokenExpirationValidation(TokenExpirationSecurityTest.java:90)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.fabric.watcher.archive.security.TokenExpirationSecurityTest.testTokenPermissionSecurity -- Time elapsed: 0.005 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <com.fabric.watcher.archive.exception.ArchiveSearchException> but was: <io.jsonwebtoken.security.SignatureException>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3128)
+	at com.fabric.watcher.archive.security.TokenExpirationSecurityTest.testTokenPermissionSecurity(TokenExpirationSecurityTest.java:257)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+	at io.jsonwebtoken.impl.DefaultJwtParser.verifySignature(DefaultJwtParser.java:340)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:579)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:364)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:94)
+	at io.jsonwebtoken.impl.io.AbstractParser.parse(AbstractParser.java:36)
+	at io.jsonwebtoken.impl.io.AbstractParser.parse(AbstractParser.java:29)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parseSignedClaims(DefaultJwtParser.java:830)
+	at com.fabric.watcher.archive.service.JwtTokenService.validateToken(JwtTokenService.java:108)
+	at com.fabric.watcher.archive.service.JwtTokenService.getPermissionsFromToken(JwtTokenService.java:148)
+	at com.fabric.watcher.archive.security.TokenExpirationSecurityTest.lambda$testTokenPermissionSecurity$8(TokenExpirationSecurityTest.java:258)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
+	... 6 more
+
+com.fabric.watcher.archive.security.TokenExpirationSecurityTest.testTokenExtractionSecurity -- Time elapsed: 0.003 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <valid-jwt-token-123> but was: <   valid-jwt-token-123>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at com.fabric.watcher.archive.security.TokenExpirationSecurityTest.testTokenExtractionSecurity(TokenExpirationSecurityTest.java:180)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+

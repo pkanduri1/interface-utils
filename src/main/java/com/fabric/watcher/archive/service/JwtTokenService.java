@@ -102,10 +102,11 @@ public class JwtTokenService {
 
         try {
             Claims claims = Jwts.parser()
-                    .setSigningKey(secretKey)
+                    .verifyWith(secretKey)
                     .requireIssuer(ISSUER)
-                    .parseClaimsJws(token)
-                    .getBody();
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
 
             logger.debug("Successfully validated JWT token for user: {}", claims.getSubject());
             return claims;

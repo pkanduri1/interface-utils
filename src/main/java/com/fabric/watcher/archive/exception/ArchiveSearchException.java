@@ -50,8 +50,11 @@ public class ArchiveSearchException extends RuntimeException {
         // Request validation errors
         INVALID_REQUEST("ARCH021", "Invalid request parameters"),
         
+        // LDAP connection errors
+        LDAP_CONNECTION_ERROR("ARCH023", "LDAP connection error"),
+        
         // Not implemented
-        NOT_IMPLEMENTED("ARCH022", "Feature not implemented");
+        NOT_IMPLEMENTED("ARCH024", "Feature not implemented");
 
         private final String code;
         private final String message;

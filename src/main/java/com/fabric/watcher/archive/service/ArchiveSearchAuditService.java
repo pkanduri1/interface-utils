@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -435,5 +435,29 @@ public class ArchiveSearchAuditService {
         } finally {
             lock.readLock().unlock();
         }
+    }
+    
+    /**
+     * Log file upload request
+     */
+    public void logFileUploadRequest(String userId, String fileName, String ipAddress, String targetPath, String fileSize) {
+        String details = String.format("Upload request - File: %s, Size: %s", fileName, fileSize);
+        logFileUpload(userId, fileName, targetPath, true, ipAddress, details);
+    }
+    
+    /**
+     * Log successful file upload
+     */
+    public void logFileUploadSuccess(String userId, String fileName, String targetPath, long fileSize, long duration) {
+        String details = String.format("Upload successful - Size: %d bytes, Duration: %d ms", fileSize, duration);
+        logFileUpload(userId, fileName, targetPath, true, "unknown", details);
+    }
+    
+    /**
+     * Log failed file upload
+     */
+    public void logFileUploadFailure(String userId, String fileName, String ipAddress, String reason, String targetPath, long fileSize) {
+        String details = String.format("Upload failed - Reason: %s, Size: %d bytes", reason, fileSize);
+        logFileUpload(userId, fileName, targetPath, false, ipAddress, details);
     }
 }

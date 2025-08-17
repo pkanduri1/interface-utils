@@ -1,0 +1,129 @@
+-------------------------------------------------------------------------------
+Test set: com.fabric.watcher.archive.security.AuthenticationSecurityTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 1, Errors: 6, Skipped: 0, Time elapsed: 0.554 s <<< FAILURE! -- in com.fabric.watcher.archive.security.AuthenticationSecurityTest
+com.fabric.watcher.archive.security.AuthenticationSecurityTest.testSessionTimeoutAndTokenExpirationHandling -- Time elapsed: 0.472 s <<< ERROR!
+org.mockito.exceptions.misusing.PotentialStubbingProblem: 
+
+Strict stubbing argument mismatch. Please check:
+ - this invocation of 'getHeader' method:
+    httpRequest.getHeader("X-Forwarded-For");
+    -> at com.fabric.watcher.archive.controller.AuthenticationController.getClientIpAddress(AuthenticationController.java:324)
+ - has following stubbing(s) with different arguments:
+    1. httpRequest.getHeader("Authorization");
+      -> at com.fabric.watcher.archive.security.AuthenticationSecurityTest.testSessionTimeoutAndTokenExpirationHandling(AuthenticationSecurityTest.java:263)
+Typically, stubbing argument mismatch indicates user mistake when writing tests.
+Mockito fails early so that you can debug potential problem easily.
+However, there are legit scenarios when this exception generates false negative signal:
+  - stubbing the same method multiple times using 'given().will()' or 'when().then()' API
+    Please use 'will().given()' or 'doReturn().when()' API for stubbing.
+  - stubbed method is intentionally invoked with different arguments by code under test
+    Please use default or 'silent' JUnit Rule (equivalent of Strictness.LENIENT).
+For more information see javadoc for PotentialStubbingProblem class.
+	at com.fabric.watcher.archive.controller.AuthenticationController.getClientIpAddress(AuthenticationController.java:324)
+	at com.fabric.watcher.archive.controller.AuthenticationController.authenticate(AuthenticationController.java:101)
+	at com.fabric.watcher.archive.security.AuthenticationSecurityTest.authenticateUser(AuthenticationSecurityTest.java:686)
+	at com.fabric.watcher.archive.security.AuthenticationSecurityTest.testSessionTimeoutAndTokenExpirationHandling(AuthenticationSecurityTest.java:269)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.fabric.watcher.archive.security.AuthenticationSecurityTest.testLdapAuthenticationWithInvalidCredentials -- Time elapsed: 0.017 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <INVALID_REQUEST> but was: <AUTHENTICATION_FAILED>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at com.fabric.watcher.archive.security.AuthenticationSecurityTest.testLdapAuthenticationWithInvalidCredentials(AuthenticationSecurityTest.java:125)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.fabric.watcher.archive.security.AuthenticationSecurityTest.testSecurityLoggingAndAuditTrail -- Time elapsed: 0.015 s <<< ERROR!
+org.mockito.exceptions.misusing.PotentialStubbingProblem: 
+
+Strict stubbing argument mismatch. Please check:
+ - this invocation of 'getHeader' method:
+    httpRequest.getHeader("X-Forwarded-For");
+    -> at com.fabric.watcher.archive.controller.AuthenticationController.getClientIpAddress(AuthenticationController.java:324)
+ - has following stubbing(s) with different arguments:
+    1. httpRequest.getHeader("Authorization");
+      -> at com.fabric.watcher.archive.security.AuthenticationSecurityTest.testSecurityLoggingAndAuditTrail(AuthenticationSecurityTest.java:575)
+Typically, stubbing argument mismatch indicates user mistake when writing tests.
+Mockito fails early so that you can debug potential problem easily.
+However, there are legit scenarios when this exception generates false negative signal:
+  - stubbing the same method multiple times using 'given().will()' or 'when().then()' API
+    Please use 'will().given()' or 'doReturn().when()' API for stubbing.
+  - stubbed method is intentionally invoked with different arguments by code under test
+    Please use default or 'silent' JUnit Rule (equivalent of Strictness.LENIENT).
+For more information see javadoc for PotentialStubbingProblem class.
+	at com.fabric.watcher.archive.controller.AuthenticationController.getClientIpAddress(AuthenticationController.java:324)
+	at com.fabric.watcher.archive.controller.AuthenticationController.authenticate(AuthenticationController.java:101)
+	at com.fabric.watcher.archive.security.AuthenticationSecurityTest.authenticateUser(AuthenticationSecurityTest.java:686)
+	at com.fabric.watcher.archive.security.AuthenticationSecurityTest.testSecurityLoggingAndAuditTrail(AuthenticationSecurityTest.java:580)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.fabric.watcher.archive.security.AuthenticationSecurityTest.testAuthenticationSecurityEdgeCases -- Time elapsed: 0.012 s <<< ERROR!
+org.mockito.exceptions.misusing.UnnecessaryStubbingException: 
+
+Unnecessary stubbings detected.
+Clean & maintainable test code requires zero unnecessary code.
+Following stubbings are unnecessary (click to navigate to relevant line of code):
+  1. -> at com.fabric.watcher.archive.security.AuthenticationSecurityTest.setUp(AuthenticationSecurityTest.java:85)
+  2. -> at com.fabric.watcher.archive.security.AuthenticationSecurityTest.setUp(AuthenticationSecurityTest.java:86)
+  3. -> at com.fabric.watcher.archive.security.AuthenticationSecurityTest.setUp(AuthenticationSecurityTest.java:87)
+  4. -> at com.fabric.watcher.archive.security.AuthenticationSecurityTest.setUp(AuthenticationSecurityTest.java:88)
+Please remove unnecessary stubbings or use 'lenient' strictness. More info: javadoc for UnnecessaryStubbingException class.
+	at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:197)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.fabric.watcher.archive.security.AuthenticationSecurityTest.testConcurrentAuthenticationSecurity -- Time elapsed: 0.017 s <<< ERROR!
+org.mockito.exceptions.misusing.UnnecessaryStubbingException: 
+
+Unnecessary stubbings detected.
+Clean & maintainable test code requires zero unnecessary code.
+Following stubbings are unnecessary (click to navigate to relevant line of code):
+  1. -> at com.fabric.watcher.archive.security.AuthenticationSecurityTest.setUp(AuthenticationSecurityTest.java:85)
+  2. -> at com.fabric.watcher.archive.security.AuthenticationSecurityTest.setUp(AuthenticationSecurityTest.java:86)
+  3. -> at com.fabric.watcher.archive.security.AuthenticationSecurityTest.setUp(AuthenticationSecurityTest.java:87)
+  4. -> at com.fabric.watcher.archive.security.AuthenticationSecurityTest.setUp(AuthenticationSecurityTest.java:88)
+Please remove unnecessary stubbings or use 'lenient' strictness. More info: javadoc for UnnecessaryStubbingException class.
+	at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:197)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.fabric.watcher.archive.security.AuthenticationSecurityTest.testAuthorizationForDifferentUserRolesAndOperations -- Time elapsed: 0.009 s <<< ERROR!
+org.mockito.exceptions.misusing.UnnecessaryStubbingException: 
+
+Unnecessary stubbings detected.
+Clean & maintainable test code requires zero unnecessary code.
+Following stubbings are unnecessary (click to navigate to relevant line of code):
+  1. -> at com.fabric.watcher.archive.security.AuthenticationSecurityTest.setUp(AuthenticationSecurityTest.java:85)
+  2. -> at com.fabric.watcher.archive.security.AuthenticationSecurityTest.setUp(AuthenticationSecurityTest.java:86)
+  3. -> at com.fabric.watcher.archive.security.AuthenticationSecurityTest.setUp(AuthenticationSecurityTest.java:87)
+  4. -> at com.fabric.watcher.archive.security.AuthenticationSecurityTest.setUp(AuthenticationSecurityTest.java:88)
+Please remove unnecessary stubbings or use 'lenient' strictness. More info: javadoc for UnnecessaryStubbingException class.
+	at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:197)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.fabric.watcher.archive.security.AuthenticationSecurityTest.testRateLimitingForFailedAuthenticationAttempts -- Time elapsed: 0.009 s <<< ERROR!
+org.mockito.exceptions.misusing.UnnecessaryStubbingException: 
+
+Unnecessary stubbings detected.
+Clean & maintainable test code requires zero unnecessary code.
+Following stubbings are unnecessary (click to navigate to relevant line of code):
+  1. -> at com.fabric.watcher.archive.security.AuthenticationSecurityTest.setUp(AuthenticationSecurityTest.java:85)
+  2. -> at com.fabric.watcher.archive.security.AuthenticationSecurityTest.setUp(AuthenticationSecurityTest.java:86)
+  3. -> at com.fabric.watcher.archive.security.AuthenticationSecurityTest.setUp(AuthenticationSecurityTest.java:87)
+  4. -> at com.fabric.watcher.archive.security.AuthenticationSecurityTest.setUp(AuthenticationSecurityTest.java:88)
+Please remove unnecessary stubbings or use 'lenient' strictness. More info: javadoc for UnnecessaryStubbingException class.
+	at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:197)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+

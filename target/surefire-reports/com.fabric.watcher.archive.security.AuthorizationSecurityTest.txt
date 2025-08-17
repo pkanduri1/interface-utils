@@ -1,0 +1,84 @@
+-------------------------------------------------------------------------------
+Test set: com.fabric.watcher.archive.security.AuthorizationSecurityTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 3, Errors: 3, Skipped: 0, Time elapsed: 0.229 s <<< FAILURE! -- in com.fabric.watcher.archive.security.AuthorizationSecurityTest
+com.fabric.watcher.archive.security.AuthorizationSecurityTest.testAuthorizationEdgeCases -- Time elapsed: 0.202 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:31)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:183)
+	at com.fabric.watcher.archive.security.AuthorizationSecurityTest.testAuthorizationEdgeCases(AuthorizationSecurityTest.java:354)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.fabric.watcher.archive.security.AuthorizationSecurityTest.testUserRoleBasedAuthorization -- Time elapsed: 0.003 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:31)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:183)
+	at com.fabric.watcher.archive.security.AuthorizationSecurityTest.testUserRoleBasedAuthorization(AuthorizationSecurityTest.java:131)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.fabric.watcher.archive.security.AuthorizationSecurityTest.testLdapAttributeMappingSecurity -- Time elapsed: 0.008 s <<< ERROR!
+org.mockito.exceptions.misusing.UnnecessaryStubbingException: 
+
+Unnecessary stubbings detected.
+Clean & maintainable test code requires zero unnecessary code.
+Following stubbings are unnecessary (click to navigate to relevant line of code):
+  1. -> at com.fabric.watcher.archive.security.AuthorizationSecurityTest.setUp(AuthorizationSecurityTest.java:51)
+  2. -> at com.fabric.watcher.archive.security.AuthorizationSecurityTest.setUp(AuthorizationSecurityTest.java:53)
+  3. -> at com.fabric.watcher.archive.security.AuthorizationSecurityTest.testLdapAttributeMappingSecurity(AuthorizationSecurityTest.java:443)
+  4. -> at com.fabric.watcher.archive.security.AuthorizationSecurityTest.testLdapAttributeMappingSecurity(AuthorizationSecurityTest.java:464)
+Please remove unnecessary stubbings or use 'lenient' strictness. More info: javadoc for UnnecessaryStubbingException class.
+	at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:197)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.fabric.watcher.archive.security.AuthorizationSecurityTest.testAuthorizationCachingAndPerformance -- Time elapsed: 0.007 s <<< ERROR!
+org.mockito.exceptions.misusing.UnnecessaryStubbingException: 
+
+Unnecessary stubbings detected.
+Clean & maintainable test code requires zero unnecessary code.
+Following stubbings are unnecessary (click to navigate to relevant line of code):
+  1. -> at com.fabric.watcher.archive.security.AuthorizationSecurityTest.setUp(AuthorizationSecurityTest.java:51)
+  2. -> at com.fabric.watcher.archive.security.AuthorizationSecurityTest.setUp(AuthorizationSecurityTest.java:53)
+Please remove unnecessary stubbings or use 'lenient' strictness. More info: javadoc for UnnecessaryStubbingException class.
+	at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:197)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.fabric.watcher.archive.security.AuthorizationSecurityTest.testComplexGroupHierarchyAuthorization -- Time elapsed: 0.003 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:31)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:183)
+	at com.fabric.watcher.archive.security.AuthorizationSecurityTest.testComplexGroupHierarchyAuthorization(AuthorizationSecurityTest.java:167)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.fabric.watcher.archive.security.AuthorizationSecurityTest.testPrivilegeEscalationPrevention -- Time elapsed: 0.002 s <<< ERROR!
+org.mockito.exceptions.misusing.UnnecessaryStubbingException: 
+
+Unnecessary stubbings detected.
+Clean & maintainable test code requires zero unnecessary code.
+Following stubbings are unnecessary (click to navigate to relevant line of code):
+  1. -> at com.fabric.watcher.archive.security.AuthorizationSecurityTest.setUp(AuthorizationSecurityTest.java:51)
+  2. -> at com.fabric.watcher.archive.security.AuthorizationSecurityTest.setUp(AuthorizationSecurityTest.java:53)
+Please remove unnecessary stubbings or use 'lenient' strictness. More info: javadoc for UnnecessaryStubbingException class.
+	at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:197)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+

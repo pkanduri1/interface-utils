@@ -82,7 +82,7 @@ class FileUploadServiceTest {
         doNothing().when(multipartFile).transferTo(any(java.io.File.class));
         
         when(securityValidator.sanitizePath(anyString())).thenReturn(targetPath);
-        when(securityValidator.isPathAllowed(anyString())).thenReturn(true);
+        when(securityValidator.isPathAllowed(anyString(), anyList())).thenReturn(true);
         
         UploadRequest uploadRequest = new UploadRequest(multipartFile, targetPath);
 
@@ -250,7 +250,7 @@ class FileUploadServiceTest {
         when(multipartFile.isEmpty()).thenReturn(false);
         
         when(securityValidator.sanitizePath(targetPath)).thenReturn(targetPath);
-        when(securityValidator.isPathAllowed(targetPath)).thenReturn(false);
+        when(securityValidator.isPathAllowed(eq(targetPath), anyList())).thenReturn(false);
         
         UploadRequest uploadRequest = new UploadRequest(multipartFile, targetPath);
 
@@ -273,7 +273,7 @@ class FileUploadServiceTest {
         when(multipartFile.isEmpty()).thenReturn(false);
         
         when(securityValidator.sanitizePath(targetPath)).thenReturn(targetPath);
-        when(securityValidator.isPathAllowed(targetPath)).thenReturn(true);
+        when(securityValidator.isPathAllowed(eq(targetPath), anyList())).thenReturn(true);
         
         UploadRequest uploadRequest = new UploadRequest(multipartFile, targetPath);
 
@@ -297,7 +297,7 @@ class FileUploadServiceTest {
         when(multipartFile.isEmpty()).thenReturn(false);
         
         when(securityValidator.sanitizePath(anyString())).thenReturn(targetPath.toString());
-        when(securityValidator.isPathAllowed(anyString())).thenReturn(true);
+        when(securityValidator.isPathAllowed(anyString(), anyList())).thenReturn(true);
         
         UploadRequest uploadRequest = new UploadRequest(multipartFile, targetPath.toString(), false, null);
 
@@ -323,7 +323,7 @@ class FileUploadServiceTest {
         doNothing().when(multipartFile).transferTo(any(java.io.File.class));
         
         when(securityValidator.sanitizePath(anyString())).thenReturn(targetPath.toString());
-        when(securityValidator.isPathAllowed(anyString())).thenReturn(true);
+        when(securityValidator.isPathAllowed(anyString(), anyList())).thenReturn(true);
         
         UploadRequest uploadRequest = new UploadRequest(multipartFile, targetPath.toString(), true, null);
 
@@ -351,7 +351,7 @@ class FileUploadServiceTest {
         when(multipartFile.isEmpty()).thenReturn(false);
         
         when(securityValidator.sanitizePath(anyString())).thenReturn(targetPath.toString());
-        when(securityValidator.isPathAllowed(anyString())).thenReturn(true);
+        when(securityValidator.isPathAllowed(anyString(), anyList())).thenReturn(true);
         
         UploadRequest uploadRequest = new UploadRequest(multipartFile, targetPath.toString());
 
@@ -375,7 +375,7 @@ class FileUploadServiceTest {
         doThrow(new IOException("Transfer failed")).when(multipartFile).transferTo(any(java.io.File.class));
         
         when(securityValidator.sanitizePath(anyString())).thenReturn(targetPath);
-        when(securityValidator.isPathAllowed(anyString())).thenReturn(true);
+        when(securityValidator.isPathAllowed(anyString(), anyList())).thenReturn(true);
         
         UploadRequest uploadRequest = new UploadRequest(multipartFile, targetPath);
 
@@ -394,7 +394,7 @@ class FileUploadServiceTest {
         String invalidPath = "/invalid/path";
         
         when(securityValidator.sanitizePath(validPath)).thenReturn(validPath);
-        when(securityValidator.isPathAllowed(validPath)).thenReturn(true);
+        when(securityValidator.isPathAllowed(eq(validPath), anyList())).thenReturn(true);
         when(uploadConfig.getUploadDirectory()).thenReturn("/valid");
         
         when(securityValidator.sanitizePath(invalidPath)).thenReturn(null);
