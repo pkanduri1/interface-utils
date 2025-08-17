@@ -1,0 +1,58 @@
+spring:
+  profiles:
+    active: test
+
+# Test configuration for LDAP authentication service
+archive:
+  search:
+    enabled: true
+    allowed-paths:
+      - "./test-data"
+    excluded-paths: []
+    max-file-size: 10485760  # 10MB for testing
+    max-search-results: 50
+    search-timeout-seconds: 10
+    supported-archive-types:
+      - zip
+      - tar
+    max-concurrent-operations: 2
+    audit-logging-enabled: true
+    max-directory-depth: 5
+    
+    # Test LDAP Configuration
+    ldap:
+      url: ${LDAP_URL:ldap://localhost:389}
+      base-dn: ${LDAP_BASE_DN:dc=test,dc=com}
+      user-search-base: ${LDAP_USER_SEARCH_BASE:ou=users}
+      user-search-filter: ${LDAP_USER_SEARCH_FILTER:(sAMAccountName={0})}
+      connection-timeout: 3000
+      read-timeout: 5000
+      use-ssl: false
+      bind-dn: ${LDAP_BIND_DN:}
+      bind-password: ${LDAP_BIND_PASSWORD:}
+    
+    # Test Upload Configuration
+    upload:
+      upload-directory: ./test-uploads
+      allowed-extensions: [.txt, .sql, .json]
+      max-upload-size: 1048576  # 1MB for testing
+      temp-directory: ./test-temp
+      create-directories: true
+      preserve-timestamps: false
+      max-concurrent-uploads: 1
+    
+    # Test Audit Configuration
+    audit:
+      log-file: ./test-logs/audit-test.log
+      max-file-size: 1MB
+      max-history: 5
+      enabled: true
+      log-pattern: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+      log-to-console: true
+      compress-rotated-files: false
+
+logging:
+  level:
+    com.fabric.watcher.archive.service.LdapAuthenticationService: DEBUG
+    org.springframework.ldap: DEBUG
+    root: INFO
