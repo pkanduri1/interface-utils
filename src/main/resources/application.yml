@@ -1,0 +1,249 @@
+# Database Script Watcher Application Configuration
+# Archive Search API Configuration
+
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: database-script-watcher
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  
+  # Multipart file upload configuration
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+      file-size-threshold: 2KB
+      location: ${java.io.tmpdir}
+
+# Archive Search API Configuration
+archive:
+  search:
+    # Enable/disable the API (disabled by default for security)
+    enabled: ${ARCHIVE_SEARCH_ENABLED:false}
+    
+    # File system access configuration
+    allowed-paths:
+      - ${ARCHIVE_ALLOWED_PATHS_1:/data/archives}
+      - ${ARCHIVE_ALLOWED_PATHS_2:/tmp/search}
+      - ${ARCHIVE_ALLOWED_PATHS_3:/opt/data}
+    excluded-paths:
+      - ${ARCHIVE_EXCLUDED_PATHS_1:/data/archives/sensitive}
+      - ${ARCHIVE_EXCLUDED_PATHS_2:/etc}
+      - ${ARCHIVE_EXCLUDED_PATHS_3:/root}
+    
+    # File processing limits
+    max-file-size: ${ARCHIVE_MAX_FILE_SIZE:104857600}  # 100MB
+    max-search-results: ${ARCHIVE_MAX_SEARCH_RESULTS:100}
+    search-timeout-seconds: ${ARCHIVE_SEARCH_TIMEOUT:30}
+    max-concurrent-operations: ${ARCHIVE_MAX_CONCURRENT_OPS:5}
+    max-directory-depth: ${ARCHIVE_MAX_DIRECTORY_DEPTH:10}
+    
+    # Supported archive formats
+    supported-archive-types:
+      - zip
+      - tar
+      - tar.gz
+      - jar
+      - war
+      - ear
+    
+    # Security settings
+    audit-logging-enabled: ${ARCHIVE_AUDIT_ENABLED:true}
+    path-traversal-protection: ${ARCHIVE_PATH_TRAVERSAL_PROTECTION:true}
+    file-type-validation: ${ARCHIVE_FILE_TYPE_VALIDATION:true}
+    
+    # LDAP Authentication Configuration
+    ldap:
+      # LDAP server connection settings
+      url: ${LDAP_URL:ldap://your-ad-server.company.com:389}
+      base-dn: ${LDAP_BASE_DN:dc=company,dc=com}
+      user-search-base: ${LDAP_USER_SEARCH_BASE:ou=users}
+      user-search-filter: ${LDAP_USER_SEARCH_FILTER:(sAMAccountName={0})}
+      
+      # Connection timeouts
+      connection-timeout: ${LDAP_CONNECTION_TIMEOUT:5000}
+      read-timeout: ${LDAP_READ_TIMEOUT:10000}
+      
+      # SSL/TLS configuration
+      use-ssl: ${LDAP_USE_SSL:false}
+      
+      # Service account for LDAP binding (optional)
+      bind-dn: ${LDAP_BIND_DN:}
+      bind-password: ${LDAP_BIND_PASSWORD:}
+    
+    # File Upload Configuration
+    upload:
+      # Upload directory on target Linux servers
+      upload-directory: ${UPLOAD_DIRECTORY:/opt/uploads}
+      
+      # Allowed file extensions for security
+      allowed-extensions:
+        - ${UPLOAD_EXT_1:.txt}
+        - ${UPLOAD_EXT_2:.sql}
+        - ${UPLOAD_EXT_3:.xml}
+        - ${UPLOAD_EXT_4:.json}
+        - ${UPLOAD_EXT_5:.properties}
+        - ${UPLOAD_EXT_6:.yml}
+        - ${UPLOAD_EXT_7:.yaml}
+        - ${UPLOAD_EXT_8:.conf}
+        - ${UPLOAD_EXT_9:.cfg}
+        - ${UPLOAD_EXT_10:.log}
+      
+      # Upload size limits
+      max-upload-size: ${UPLOAD_MAX_SIZE:104857600}  # 100MB
+      max-concurrent-uploads: ${UPLOAD_MAX_CONCURRENT:3}
+      
+      # Temporary directory for upload processing
+      temp-directory: ${UPLOAD_TEMP_DIR:/tmp/file-uploads}
+      
+      # File handling options
+      create-directories: ${UPLOAD_CREATE_DIRS:true}
+      preserve-timestamps: ${UPLOAD_PRESERVE_TIMESTAMPS:true}
+    
+    # Audit Logging Configuration
+    audit:
+      # Enable/disable audit logging
+      enabled: ${AUDIT_ENABLED:true}
+      
+      # Audit log file location
+      log-file: ${AUDIT_LOG_FILE:./logs/archive-search-audit.log}
+      
+      # Log rotation settings
+      max-file-size: ${AUDIT_MAX_FILE_SIZE:10MB}
+      max-history: ${AUDIT_MAX_HISTORY:30}
+      compress-rotated-files: ${AUDIT_COMPRESS_ROTATED:true}
+      
+      # Log format configuration
+      log-pattern: ${AUDIT_LOG_PATTERN:%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n}
+      log-to-console: ${AUDIT_LOG_TO_CONSOLE:false}
+    
+    # Security Configuration
+    security:
+      # Authentication rate limiting
+      max-login-attempts: ${SECURITY_MAX_LOGIN_ATTEMPTS:3}
+      lockout-duration-minutes: ${SECURITY_LOCKOUT_DURATION:15}
+      session-timeout-minutes: ${SECURITY_SESSION_TIMEOUT:30}
+
+# Logging Configuration
+logging:
+  level:
+    com.fabric.watcher.archive: ${ARCHIVE_LOG_LEVEL:INFO}
+    org.springframework.ldap: ${LDAP_LOG_LEVEL:WARN}
+    org.springframework.security: ${SECURITY_LOG_LEVEL:WARN}
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: ${LOG_FILE:./logs/database-script-watcher.log}
+
+# Management and monitoring
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+
+# Swagger/OpenAPI Configuration
+springdoc:
+  api-docs:
+    enabled: ${SWAGGER_ENABLED:true}
+    groups:
+      enabled: true
+  swagger-ui:
+    enabled: ${SWAGGER_UI_ENABLED:true}
+    path: /swagger-ui.html
+  group-configs:
+    - group: archive-search
+      paths-to-match: /api/v1/archive/**,/api/v1/auth/**
+      display-name: Archive Search API with Authentication
+
+---
+# Development Profile
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+archive:
+  search:
+    enabled: true
+    allowed-paths:
+      - /tmp/test-archives
+      - /var/tmp/search-test
+    ldap:
+      url: ldap://dev-ad-server.company.com:389
+    upload:
+      upload-directory: /tmp/dev-uploads
+    audit:
+      log-file: ./logs/dev-archive-search-audit.log
+      log-to-console: true
+
+logging:
+  level:
+    com.fabric.watcher.archive: DEBUG
+
+---
+# Test Profile
+spring:
+  config:
+    activate:
+      on-profile: test
+
+archive:
+  search:
+    enabled: true
+    allowed-paths:
+      - /tmp/test-data
+    ldap:
+      url: ldap://test-ad-server.company.com:389
+    upload:
+      upload-directory: /tmp/test-uploads
+    audit:
+      log-file: ./logs/test-archive-search-audit.log
+
+---
+# Staging Profile
+spring:
+  config:
+    activate:
+      on-profile: staging
+
+archive:
+  search:
+    enabled: true
+    allowed-paths:
+      - /data/staging-archives
+    ldap:
+      url: ldaps://staging-ad-server.company.com:636
+      use-ssl: true
+    upload:
+      upload-directory: /opt/staging-uploads
+    audit:
+      log-file: /var/log/archive-search/staging-audit.log
+
+---
+# Production Profile - Archive Search API DISABLED for security
+spring:
+  config:
+    activate:
+      on-profile: prod,production
+
+archive:
+  search:
+    # IMPORTANT: Archive Search API is disabled in production for security
+    enabled: false
+
+logging:
+  level:
+    com.fabric.watcher.archive: WARN
+  file:
+    name: /var/log/database-script-watcher/application.log
