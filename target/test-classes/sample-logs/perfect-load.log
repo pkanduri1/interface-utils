@@ -1,0 +1,17 @@
+SQL*Loader: Release 19.0.0.0.0 - Production on Mon Jan 15 12:00:00 2024
+
+Control File:   perfect.ctl
+Data File:      perfect.dat
+
+Table CUSTOMERS, loaded from every logical record.
+
+Run began on Mon Jan 15 12:00:15 2024
+Run ended on Mon Jan 15 12:01:00 2024
+
+500 Rows successfully loaded.
+0 Rows not loaded due to data errors.
+0 Rows not loaded because all WHEN clauses were failed.
+0 Rows not loaded because all fields were null.
+
+Total logical records read:            500
+Total logical records rejected:           0

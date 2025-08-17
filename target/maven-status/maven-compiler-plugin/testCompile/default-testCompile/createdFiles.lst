@@ -1,0 +1,8 @@
+com/fabric/watcher/archive/config/ArchiveSearchPropertiesTest$TestConfiguration.class
+com/fabric/watcher/DatabaseScriptWatcherApplicationTest.class
+com/fabric/watcher/archive/controller/AuthenticationControllerTest.class
+com/fabric/watcher/archive/exception/ArchiveSearchExceptionHandlerTest.class
+com/fabric/watcher/archive/controller/ArchiveSearchControllerTest.class
+com/fabric/watcher/archive/exception/ArchiveSearchExceptionTest.class
+com/fabric/watcher/archive/config/ArchiveSearchPropertiesTest.class
+com/fabric/watcher/archive/exception/ErrorHandlingIntegrationTest.class

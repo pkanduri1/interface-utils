@@ -1,0 +1,14 @@
+SQL*Loader: Release 19.0.0.0.0 - Production on Mon Jan 15 11:00:00 2024
+
+Control File:   problem.ctl
+Data File:      problem.dat
+
+SQL*Loader-500: Unable to open file (problem.dat)
+SQL*Loader-553: file not found
+SQL*Loader-509: System error: Invalid number format in record 15
+
+Run began on Mon Jan 15 11:00:15 2024
+Run ended on Mon Jan 15 11:00:16 2024
+
+0 Rows successfully loaded.
+0 Rows not loaded due to data errors.
