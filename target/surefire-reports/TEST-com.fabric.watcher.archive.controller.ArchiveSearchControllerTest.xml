@@ -1,0 +1,743 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.fabric.watcher.archive.controller.ArchiveSearchControllerTest" time="1.438" tests="9" errors="7" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="17"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher/target/test-classes:/Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher/target/classes:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.4.6/spring-boot-starter-web-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-starter/3.4.6/spring-boot-starter-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot/3.4.6/spring-boot-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.4.6/spring-boot-autoconfigure-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.4.6/spring-boot-starter-logging-3.4.6.jar:/Users/pavankanduri/.m2/repository/ch/qos/logback/logback-classic/1.5.18/logback-classic-1.5.18.jar:/Users/pavankanduri/.m2/repository/ch/qos/logback/logback-core/1.5.18/logback-core-1.5.18.jar:/Users/pavankanduri/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.24.3/log4j-to-slf4j-2.24.3.jar:/Users/pavankanduri/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar:/Users/pavankanduri/.m2/repository/org/slf4j/jul-to-slf4j/2.0.17/jul-to-slf4j-2.0.17.jar:/Users/pavankanduri/.m2/repository/org/yaml/snakeyaml/2.3/snakeyaml-2.3.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.4.6/spring-boot-starter-json-3.4.6.jar:/Users/pavankanduri/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.18.4/jackson-datatype-jdk8-2.18.4.jar:/Users/pavankanduri/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.18.4/jackson-datatype-jsr310-2.18.4.jar:/Users/pavankanduri/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.18.4/jackson-module-parameter-names-2.18.4.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.4.6/spring-boot-starter-tomcat-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.41/tomcat-embed-core-10.1.41.jar:/Users/pavankanduri/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.41/tomcat-embed-websocket-10.1.41.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-web/6.2.7/spring-web-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-webmvc/6.2.7/spring-webmvc-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-context/6.2.7/spring-context-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-expression/6.2.7/spring-expression-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.4.6/spring-boot-starter-data-jpa-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.4.6/spring-boot-starter-jdbc-3.4.6.jar:/Users/pavankanduri/.m2/repository/com/zaxxer/HikariCP/5.1.0/HikariCP-5.1.0.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-jdbc/6.2.7/spring-jdbc-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/hibernate/orm/hibernate-core/6.6.15.Final/hibernate-core-6.6.15.Final.jar:/Users/pavankanduri/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/Users/pavankanduri/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/Users/pavankanduri/.m2/repository/org/jboss/logging/jboss-logging/3.6.1.Final/jboss-logging-3.6.1.Final.jar:/Users/pavankanduri/.m2/repository/org/hibernate/common/hibernate-commons-annotations/7.0.3.Final/hibernate-commons-annotations-7.0.3.Final.jar:/Users/pavankanduri/.m2/repository/io/smallrye/jandex/3.2.0/jandex-3.2.0.jar:/Users/pavankanduri/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/Users/pavankanduri/.m2/repository/net/bytebuddy/byte-buddy/1.15.11/byte-buddy-1.15.11.jar:/Users/pavankanduri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.5/jaxb-runtime-4.0.5.jar:/Users/pavankanduri/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.5/jaxb-core-4.0.5.jar:/Users/pavankanduri/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/Users/pavankanduri/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar:/Users/pavankanduri/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/Users/pavankanduri/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/Users/pavankanduri/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/Users/pavankanduri/.m2/repository/org/springframework/data/spring-data-jpa/3.4.6/spring-data-jpa-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/data/spring-data-commons/3.4.6/spring-data-commons-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-orm/6.2.7/spring-orm-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-aspects/6.2.7/spring-aspects-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/aspectj/aspectjweaver/1.9.24/aspectjweaver-1.9.24.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.4.6/spring-boot-starter-validation-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.41/tomcat-embed-el-10.1.41.jar:/Users/pavankanduri/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.2.Final/hibernate-validator-8.0.2.Final.jar:/Users/pavankanduri/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-starter-actuator/3.4.6/spring-boot-starter-actuator-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-actuator-autoconfigure/3.4.6/spring-boot-actuator-autoconfigure-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-actuator/3.4.6/spring-boot-actuator-3.4.6.jar:/Users/pavankanduri/.m2/repository/io/micrometer/micrometer-observation/1.14.7/micrometer-observation-1.14.7.jar:/Users/pavankanduri/.m2/repository/io/micrometer/micrometer-commons/1.14.7/micrometer-commons-1.14.7.jar:/Users/pavankanduri/.m2/repository/io/micrometer/micrometer-jakarta9/1.14.7/micrometer-jakarta9-1.14.7.jar:/Users/pavankanduri/.m2/repository/io/micrometer/micrometer-core/1.14.7/micrometer-core-1.14.7.jar:/Users/pavankanduri/.m2/repository/org/hdrhistogram/HdrHistogram/2.2.2/HdrHistogram-2.2.2.jar:/Users/pavankanduri/.m2/repository/org/latencyutils/LatencyUtils/2.0.3/LatencyUtils-2.0.3.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.4.6/spring-boot-starter-security-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-aop/6.2.7/spring-aop-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/springframework/security/spring-security-config/6.4.6/spring-security-config-6.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/security/spring-security-web/6.4.6/spring-security-web-6.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/ldap/spring-ldap-core/3.2.12/spring-ldap-core-3.2.12.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-core/6.2.7/spring-core-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-jcl/6.2.7/spring-jcl-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-beans/6.2.7/spring-beans-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-tx/6.2.7/spring-tx-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar:/Users/pavankanduri/.m2/repository/com/h2database/h2/2.3.232/h2-2.3.232.jar:/Users/pavankanduri/.m2/repository/io/jsonwebtoken/jjwt-api/0.12.6/jjwt-api-0.12.6.jar:/Users/pavankanduri/.m2/repository/io/jsonwebtoken/jjwt-impl/0.12.6/jjwt-impl-0.12.6.jar:/Users/pavankanduri/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.12.6/jjwt-jackson-0.12.6.jar:/Users/pavankanduri/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.18.4/jackson-databind-2.18.4.jar:/Users/pavankanduri/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.18.4/jackson-annotations-2.18.4.jar:/Users/pavankanduri/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.18.4/jackson-core-2.18.4.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-spring-boot3/2.2.0/resilience4j-spring-boot3-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-spring6/2.2.0/resilience4j-spring6-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-annotations/2.2.0/resilience4j-annotations-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-consumer/2.2.0/resilience4j-consumer-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-core/2.2.0/resilience4j-core-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-circularbuffer/2.2.0/resilience4j-circularbuffer-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-framework-common/2.2.0/resilience4j-framework-common-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-micrometer/2.2.0/resilience4j-micrometer-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-bulkhead/2.2.0/resilience4j-bulkhead-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-circuitbreaker/2.2.0/resilience4j-circuitbreaker-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-retry/2.2.0/resilience4j-retry-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-ratelimiter/2.2.0/resilience4j-ratelimiter-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-timelimiter/2.2.0/resilience4j-timelimiter-2.2.0.jar:/Users/pavankanduri/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-ui/2.6.0/springdoc-openapi-starter-webmvc-ui-2.6.0.jar:/Users/pavankanduri/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-api/2.6.0/springdoc-openapi-starter-webmvc-api-2.6.0.jar:/Users/pavankanduri/.m2/repository/org/springdoc/springdoc-openapi-starter-common/2.6.0/springdoc-openapi-starter-common-2.6.0.jar:/Users/pavankanduri/.m2/repository/io/swagger/core/v3/swagger-core-jakarta/2.2.22/swagger-core-jakarta-2.2.22.jar:/Users/pavankanduri/.m2/repository/io/swagger/core/v3/swagger-annotations-jakarta/2.2.22/swagger-annotations-jakarta-2.2.22.jar:/Users/pavankanduri/.m2/repository/io/swagger/core/v3/swagger-models-jakarta/2.2.22/swagger-models-jakarta-2.2.22.jar:/Users/pavankanduri/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.18.4/jackson-dataformat-yaml-2.18.4.jar:/Users/pavankanduri/.m2/repository/org/webjars/swagger-ui/5.17.14/swagger-ui-5.17.14.jar:/Users/pavankanduri/.m2/repository/org/apache/commons/commons-compress/1.27.1/commons-compress-1.27.1.jar:/Users/pavankanduri/.m2/repository/commons-codec/commons-codec/1.17.2/commons-codec-1.17.2.jar:/Users/pavankanduri/.m2/repository/org/apache/commons/commons-lang3/3.17.0/commons-lang3-3.17.0.jar:/Users/pavankanduri/.m2/repository/commons-io/commons-io/2.18.0/commons-io-2.18.0.jar:/Users/pavankanduri/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/Users/pavankanduri/.m2/repository/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.4.6/spring-boot-starter-test-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-test/3.4.6/spring-boot-test-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.4.6/spring-boot-test-autoconfigure-3.4.6.jar:/Users/pavankanduri/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/Users/pavankanduri/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/Users/pavankanduri/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/Users/pavankanduri/.m2/repository/net/minidev/json-smart/2.5.2/json-smart-2.5.2.jar:/Users/pavankanduri/.m2/repository/net/minidev/accessors-smart/2.5.2/accessors-smart-2.5.2.jar:/Users/pavankanduri/.m2/repository/org/ow2/asm/asm/9.7.1/asm-9.7.1.jar:/Users/pavankanduri/.m2/repository/org/assertj/assertj-core/3.26.3/assertj-core-3.26.3.jar:/Users/pavankanduri/.m2/repository/org/awaitility/awaitility/4.2.2/awaitility-4.2.2.jar:/Users/pavankanduri/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/Users/pavankanduri/.m2/repository/org/junit/jupiter/junit-jupiter/5.11.4/junit-jupiter-5.11.4.jar:/Users/pavankanduri/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.11.4/junit-jupiter-api-5.11.4.jar:/Users/pavankanduri/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/pavankanduri/.m2/repository/org/junit/platform/junit-platform-commons/1.11.4/junit-platform-commons-1.11.4.jar:/Users/pavankanduri/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/pavankanduri/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.11.4/junit-jupiter-params-5.11.4.jar:/Users/pavankanduri/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.11.4/junit-jupiter-engine-5.11.4.jar:/Users/pavankanduri/.m2/repository/org/junit/platform/junit-platform-engine/1.11.4/junit-platform-engine-1.11.4.jar:/Users/pavankanduri/.m2/repository/org/mockito/mockito-core/5.14.2/mockito-core-5.14.2.jar:/Users/pavankanduri/.m2/repository/net/bytebuddy/byte-buddy-agent/1.15.11/byte-buddy-agent-1.15.11.jar:/Users/pavankanduri/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/pavankanduri/.m2/repository/org/mockito/mockito-junit-jupiter/5.14.2/mockito-junit-jupiter-5.14.2.jar:/Users/pavankanduri/.m2/repository/org/skyscreamer/jsonassert/1.5.3/jsonassert-1.5.3.jar:/Users/pavankanduri/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-test/6.2.7/spring-test-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/xmlunit/xmlunit-core/2.10.1/xmlunit-core-2.10.1.jar:/Users/pavankanduri/.m2/repository/org/springframework/security/spring-security-test/6.4.6/spring-security-test-6.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/security/spring-security-core/6.4.6/spring-security-core-6.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/security/spring-security-crypto/6.4.6/spring-security-crypto-6.4.6.jar:/Users/pavankanduri/.m2/repository/org/testcontainers/junit-jupiter/1.20.6/junit-jupiter-1.20.6.jar:/Users/pavankanduri/.m2/repository/org/testcontainers/testcontainers/1.20.6/testcontainers-1.20.6.jar:/Users/pavankanduri/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/Users/pavankanduri/.m2/repository/org/hamcrest/hamcrest-core/2.2/hamcrest-core-2.2.jar:/Users/pavankanduri/.m2/repository/org/rnorth/duct-tape/duct-tape/1.0.8/duct-tape-1.0.8.jar:/Users/pavankanduri/.m2/repository/org/jetbrains/annotations/17.0.0/annotations-17.0.0.jar:/Users/pavankanduri/.m2/repository/com/github/docker-java/docker-java-api/3.4.1/docker-java-api-3.4.1.jar:/Users/pavankanduri/.m2/repository/com/github/docker-java/docker-java-transport-zerodep/3.4.1/docker-java-transport-zerodep-3.4.1.jar:/Users/pavankanduri/.m2/repository/com/github/docker-java/docker-java-transport/3.4.1/docker-java-transport-3.4.1.jar:/Users/pavankanduri/.m2/repository/net/java/dev/jna/jna/5.13.0/jna-5.13.0.jar:/Users/pavankanduri/.m2/repository/org/wiremock/wiremock-standalone/3.0.1/wiremock-standalone-3.0.1.jar:"/>
+    <property name="java.vm.vendor" value="Homebrew"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="user.timezone" value="America/New_York"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="java.vm.specification.version" value="17"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.boot.library.path" value="/opt/homebrew/Cellar/openjdk@17/17.0.14/libexec/openjdk.jdk/Contents/Home/lib"/>
+    <property name="sun.java.command" value="/Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher/target/surefire/surefirebooter-20250817152035296_3.jar /Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher/target/surefire 2025-08-17T15-20-35_232-jvmRun1 surefire-20250817152035296_1tmp surefire_0-20250817152035296_2tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="test" value="ArchiveSearchControllerTest"/>
+    <property name="surefire.test.class.path" value="/Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher/target/test-classes:/Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher/target/classes:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.4.6/spring-boot-starter-web-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-starter/3.4.6/spring-boot-starter-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot/3.4.6/spring-boot-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.4.6/spring-boot-autoconfigure-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.4.6/spring-boot-starter-logging-3.4.6.jar:/Users/pavankanduri/.m2/repository/ch/qos/logback/logback-classic/1.5.18/logback-classic-1.5.18.jar:/Users/pavankanduri/.m2/repository/ch/qos/logback/logback-core/1.5.18/logback-core-1.5.18.jar:/Users/pavankanduri/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.24.3/log4j-to-slf4j-2.24.3.jar:/Users/pavankanduri/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar:/Users/pavankanduri/.m2/repository/org/slf4j/jul-to-slf4j/2.0.17/jul-to-slf4j-2.0.17.jar:/Users/pavankanduri/.m2/repository/org/yaml/snakeyaml/2.3/snakeyaml-2.3.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.4.6/spring-boot-starter-json-3.4.6.jar:/Users/pavankanduri/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.18.4/jackson-datatype-jdk8-2.18.4.jar:/Users/pavankanduri/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.18.4/jackson-datatype-jsr310-2.18.4.jar:/Users/pavankanduri/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.18.4/jackson-module-parameter-names-2.18.4.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.4.6/spring-boot-starter-tomcat-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.41/tomcat-embed-core-10.1.41.jar:/Users/pavankanduri/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.41/tomcat-embed-websocket-10.1.41.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-web/6.2.7/spring-web-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-webmvc/6.2.7/spring-webmvc-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-context/6.2.7/spring-context-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-expression/6.2.7/spring-expression-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.4.6/spring-boot-starter-data-jpa-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.4.6/spring-boot-starter-jdbc-3.4.6.jar:/Users/pavankanduri/.m2/repository/com/zaxxer/HikariCP/5.1.0/HikariCP-5.1.0.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-jdbc/6.2.7/spring-jdbc-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/hibernate/orm/hibernate-core/6.6.15.Final/hibernate-core-6.6.15.Final.jar:/Users/pavankanduri/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/Users/pavankanduri/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/Users/pavankanduri/.m2/repository/org/jboss/logging/jboss-logging/3.6.1.Final/jboss-logging-3.6.1.Final.jar:/Users/pavankanduri/.m2/repository/org/hibernate/common/hibernate-commons-annotations/7.0.3.Final/hibernate-commons-annotations-7.0.3.Final.jar:/Users/pavankanduri/.m2/repository/io/smallrye/jandex/3.2.0/jandex-3.2.0.jar:/Users/pavankanduri/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/Users/pavankanduri/.m2/repository/net/bytebuddy/byte-buddy/1.15.11/byte-buddy-1.15.11.jar:/Users/pavankanduri/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.5/jaxb-runtime-4.0.5.jar:/Users/pavankanduri/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.5/jaxb-core-4.0.5.jar:/Users/pavankanduri/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/Users/pavankanduri/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar:/Users/pavankanduri/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/Users/pavankanduri/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/Users/pavankanduri/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/Users/pavankanduri/.m2/repository/org/springframework/data/spring-data-jpa/3.4.6/spring-data-jpa-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/data/spring-data-commons/3.4.6/spring-data-commons-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-orm/6.2.7/spring-orm-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-aspects/6.2.7/spring-aspects-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/aspectj/aspectjweaver/1.9.24/aspectjweaver-1.9.24.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.4.6/spring-boot-starter-validation-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.41/tomcat-embed-el-10.1.41.jar:/Users/pavankanduri/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.2.Final/hibernate-validator-8.0.2.Final.jar:/Users/pavankanduri/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-starter-actuator/3.4.6/spring-boot-starter-actuator-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-actuator-autoconfigure/3.4.6/spring-boot-actuator-autoconfigure-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-actuator/3.4.6/spring-boot-actuator-3.4.6.jar:/Users/pavankanduri/.m2/repository/io/micrometer/micrometer-observation/1.14.7/micrometer-observation-1.14.7.jar:/Users/pavankanduri/.m2/repository/io/micrometer/micrometer-commons/1.14.7/micrometer-commons-1.14.7.jar:/Users/pavankanduri/.m2/repository/io/micrometer/micrometer-jakarta9/1.14.7/micrometer-jakarta9-1.14.7.jar:/Users/pavankanduri/.m2/repository/io/micrometer/micrometer-core/1.14.7/micrometer-core-1.14.7.jar:/Users/pavankanduri/.m2/repository/org/hdrhistogram/HdrHistogram/2.2.2/HdrHistogram-2.2.2.jar:/Users/pavankanduri/.m2/repository/org/latencyutils/LatencyUtils/2.0.3/LatencyUtils-2.0.3.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.4.6/spring-boot-starter-security-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-aop/6.2.7/spring-aop-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/springframework/security/spring-security-config/6.4.6/spring-security-config-6.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/security/spring-security-web/6.4.6/spring-security-web-6.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/ldap/spring-ldap-core/3.2.12/spring-ldap-core-3.2.12.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-core/6.2.7/spring-core-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-jcl/6.2.7/spring-jcl-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-beans/6.2.7/spring-beans-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-tx/6.2.7/spring-tx-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar:/Users/pavankanduri/.m2/repository/com/h2database/h2/2.3.232/h2-2.3.232.jar:/Users/pavankanduri/.m2/repository/io/jsonwebtoken/jjwt-api/0.12.6/jjwt-api-0.12.6.jar:/Users/pavankanduri/.m2/repository/io/jsonwebtoken/jjwt-impl/0.12.6/jjwt-impl-0.12.6.jar:/Users/pavankanduri/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.12.6/jjwt-jackson-0.12.6.jar:/Users/pavankanduri/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.18.4/jackson-databind-2.18.4.jar:/Users/pavankanduri/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.18.4/jackson-annotations-2.18.4.jar:/Users/pavankanduri/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.18.4/jackson-core-2.18.4.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-spring-boot3/2.2.0/resilience4j-spring-boot3-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-spring6/2.2.0/resilience4j-spring6-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-annotations/2.2.0/resilience4j-annotations-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-consumer/2.2.0/resilience4j-consumer-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-core/2.2.0/resilience4j-core-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-circularbuffer/2.2.0/resilience4j-circularbuffer-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-framework-common/2.2.0/resilience4j-framework-common-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-micrometer/2.2.0/resilience4j-micrometer-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-bulkhead/2.2.0/resilience4j-bulkhead-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-circuitbreaker/2.2.0/resilience4j-circuitbreaker-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-retry/2.2.0/resilience4j-retry-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-ratelimiter/2.2.0/resilience4j-ratelimiter-2.2.0.jar:/Users/pavankanduri/.m2/repository/io/github/resilience4j/resilience4j-timelimiter/2.2.0/resilience4j-timelimiter-2.2.0.jar:/Users/pavankanduri/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-ui/2.6.0/springdoc-openapi-starter-webmvc-ui-2.6.0.jar:/Users/pavankanduri/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-api/2.6.0/springdoc-openapi-starter-webmvc-api-2.6.0.jar:/Users/pavankanduri/.m2/repository/org/springdoc/springdoc-openapi-starter-common/2.6.0/springdoc-openapi-starter-common-2.6.0.jar:/Users/pavankanduri/.m2/repository/io/swagger/core/v3/swagger-core-jakarta/2.2.22/swagger-core-jakarta-2.2.22.jar:/Users/pavankanduri/.m2/repository/io/swagger/core/v3/swagger-annotations-jakarta/2.2.22/swagger-annotations-jakarta-2.2.22.jar:/Users/pavankanduri/.m2/repository/io/swagger/core/v3/swagger-models-jakarta/2.2.22/swagger-models-jakarta-2.2.22.jar:/Users/pavankanduri/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.18.4/jackson-dataformat-yaml-2.18.4.jar:/Users/pavankanduri/.m2/repository/org/webjars/swagger-ui/5.17.14/swagger-ui-5.17.14.jar:/Users/pavankanduri/.m2/repository/org/apache/commons/commons-compress/1.27.1/commons-compress-1.27.1.jar:/Users/pavankanduri/.m2/repository/commons-codec/commons-codec/1.17.2/commons-codec-1.17.2.jar:/Users/pavankanduri/.m2/repository/org/apache/commons/commons-lang3/3.17.0/commons-lang3-3.17.0.jar:/Users/pavankanduri/.m2/repository/commons-io/commons-io/2.18.0/commons-io-2.18.0.jar:/Users/pavankanduri/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/Users/pavankanduri/.m2/repository/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.4.6/spring-boot-starter-test-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-test/3.4.6/spring-boot-test-3.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.4.6/spring-boot-test-autoconfigure-3.4.6.jar:/Users/pavankanduri/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/Users/pavankanduri/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/Users/pavankanduri/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/Users/pavankanduri/.m2/repository/net/minidev/json-smart/2.5.2/json-smart-2.5.2.jar:/Users/pavankanduri/.m2/repository/net/minidev/accessors-smart/2.5.2/accessors-smart-2.5.2.jar:/Users/pavankanduri/.m2/repository/org/ow2/asm/asm/9.7.1/asm-9.7.1.jar:/Users/pavankanduri/.m2/repository/org/assertj/assertj-core/3.26.3/assertj-core-3.26.3.jar:/Users/pavankanduri/.m2/repository/org/awaitility/awaitility/4.2.2/awaitility-4.2.2.jar:/Users/pavankanduri/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/Users/pavankanduri/.m2/repository/org/junit/jupiter/junit-jupiter/5.11.4/junit-jupiter-5.11.4.jar:/Users/pavankanduri/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.11.4/junit-jupiter-api-5.11.4.jar:/Users/pavankanduri/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/pavankanduri/.m2/repository/org/junit/platform/junit-platform-commons/1.11.4/junit-platform-commons-1.11.4.jar:/Users/pavankanduri/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/pavankanduri/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.11.4/junit-jupiter-params-5.11.4.jar:/Users/pavankanduri/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.11.4/junit-jupiter-engine-5.11.4.jar:/Users/pavankanduri/.m2/repository/org/junit/platform/junit-platform-engine/1.11.4/junit-platform-engine-1.11.4.jar:/Users/pavankanduri/.m2/repository/org/mockito/mockito-core/5.14.2/mockito-core-5.14.2.jar:/Users/pavankanduri/.m2/repository/net/bytebuddy/byte-buddy-agent/1.15.11/byte-buddy-agent-1.15.11.jar:/Users/pavankanduri/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/pavankanduri/.m2/repository/org/mockito/mockito-junit-jupiter/5.14.2/mockito-junit-jupiter-5.14.2.jar:/Users/pavankanduri/.m2/repository/org/skyscreamer/jsonassert/1.5.3/jsonassert-1.5.3.jar:/Users/pavankanduri/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/Users/pavankanduri/.m2/repository/org/springframework/spring-test/6.2.7/spring-test-6.2.7.jar:/Users/pavankanduri/.m2/repository/org/xmlunit/xmlunit-core/2.10.1/xmlunit-core-2.10.1.jar:/Users/pavankanduri/.m2/repository/org/springframework/security/spring-security-test/6.4.6/spring-security-test-6.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/security/spring-security-core/6.4.6/spring-security-core-6.4.6.jar:/Users/pavankanduri/.m2/repository/org/springframework/security/spring-security-crypto/6.4.6/spring-security-crypto-6.4.6.jar:/Users/pavankanduri/.m2/repository/org/testcontainers/junit-jupiter/1.20.6/junit-jupiter-1.20.6.jar:/Users/pavankanduri/.m2/repository/org/testcontainers/testcontainers/1.20.6/testcontainers-1.20.6.jar:/Users/pavankanduri/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/Users/pavankanduri/.m2/repository/org/hamcrest/hamcrest-core/2.2/hamcrest-core-2.2.jar:/Users/pavankanduri/.m2/repository/org/rnorth/duct-tape/duct-tape/1.0.8/duct-tape-1.0.8.jar:/Users/pavankanduri/.m2/repository/org/jetbrains/annotations/17.0.0/annotations-17.0.0.jar:/Users/pavankanduri/.m2/repository/com/github/docker-java/docker-java-api/3.4.1/docker-java-api-3.4.1.jar:/Users/pavankanduri/.m2/repository/com/github/docker-java/docker-java-transport-zerodep/3.4.1/docker-java-transport-zerodep-3.4.1.jar:/Users/pavankanduri/.m2/repository/com/github/docker-java/docker-java-transport/3.4.1/docker-java-transport-3.4.1.jar:/Users/pavankanduri/.m2/repository/net/java/dev/jna/jna/5.13.0/jna-5.13.0.jar:/Users/pavankanduri/.m2/repository/org/wiremock/wiremock-standalone/3.0.1/wiremock-standalone-3.0.1.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/Users/pavankanduri"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-01-21"/>
+    <property name="java.home" value="/opt/homebrew/Cellar/openjdk@17/17.0.14/libexec/openjdk.jdk/Contents/Home"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="/Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher/target/surefire/surefirebooter-20250817152035296_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.runtime.version" value="17.0.14+0"/>
+    <property name="user.name" value="pavankanduri"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="15.5"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Homebrew"/>
+    <property name="localRepository" value="/Users/pavankanduri/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="java.io.tmpdir" value="/var/folders/cl/hjtgkgvx14ldvdqkbtv8sjqm0000gn/T/"/>
+    <property name="java.version" value="17.0.14"/>
+    <property name="user.dir" value="/Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher"/>
+    <property name="os.arch" value="aarch64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/pavankanduri/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.vendor" value="Homebrew"/>
+    <property name="java.vm.version" value="17.0.14+0"/>
+    <property name="java.specification.maintenance.version" value="1"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.class.version" value="61.0"/>
+  </properties>
+  <testcase name="testSearchFiles_InvalidToken" classname="com.fabric.watcher.archive.controller.ArchiveSearchControllerTest" time="1.177">
+    <error message="Request processing failed: ArchiveSearchException{errorCode=ARCH003, message=&apos;Invalid authentication token&apos;}" type="jakarta.servlet.ServletException"><![CDATA[jakarta.servlet.ServletException: Request processing failed: ArchiveSearchException{errorCode=ARCH003, message='Invalid authentication token'}
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1022)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:72)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:165)
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:201)
+	at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testSearchFiles_InvalidToken(ArchiveSearchControllerTest.java:95)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: ArchiveSearchException{errorCode=ARCH003, message='Invalid authentication token'}
+	at com.fabric.watcher.archive.controller.ArchiveSearchController.extractUserContext(ArchiveSearchController.java:350)
+	at com.fabric.watcher.archive.controller.ArchiveSearchController.searchFiles(ArchiveSearchController.java:97)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	... 12 more
+]]></error>
+    <system-out><![CDATA[15:20:36.298 [main] INFO com.fabric.watcher.archive.controller.ArchiveSearchController -- Archive Search Controller initialized
+15:20:36.432 [main] INFO org.hibernate.validator.internal.util.Version -- HV000001: Hibernate Validator 8.0.2.Final
+15:20:36.772 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+15:20:36.772 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+15:20:36.774 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 1 ms
+]]></system-out>
+  </testcase>
+  <testcase name="testSearchFiles_Success" classname="com.fabric.watcher.archive.controller.ArchiveSearchControllerTest" time="0.08">
+    <system-out><![CDATA[15:20:36.846 [main] INFO com.fabric.watcher.archive.controller.ArchiveSearchController -- Archive Search Controller initialized
+15:20:36.855 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+15:20:36.855 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+15:20:36.855 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+15:20:36.859 [main] INFO com.fabric.watcher.archive.controller.ArchiveSearchController -- File search completed for user: testuser, found 0 files in 0ms
+]]></system-out>
+  </testcase>
+  <testcase name="testDownloadFile_NotImplemented" classname="com.fabric.watcher.archive.controller.ArchiveSearchControllerTest" time="0.012">
+    <error message="Request processing failed: ArchiveSearchException{errorCode=ARCH024, message=&apos;File download functionality not yet implemented&apos;}" type="jakarta.servlet.ServletException"><![CDATA[jakarta.servlet.ServletException: Request processing failed: ArchiveSearchException{errorCode=ARCH024, message='File download functionality not yet implemented'}
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1022)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:72)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:165)
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:201)
+	at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testDownloadFile_NotImplemented(ArchiveSearchControllerTest.java:110)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: ArchiveSearchException{errorCode=ARCH024, message='File download functionality not yet implemented'}
+	at com.fabric.watcher.archive.controller.ArchiveSearchController.downloadFile(ArchiveSearchController.java:168)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	... 12 more
+]]></error>
+    <system-out><![CDATA[15:20:36.926 [main] INFO com.fabric.watcher.archive.controller.ArchiveSearchController -- Archive Search Controller initialized
+15:20:36.934 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+15:20:36.934 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+15:20:36.934 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+15:20:36.936 [main] ERROR com.fabric.watcher.archive.controller.ArchiveSearchController -- File download failed for user testuser: File download functionality not yet implemented
+]]></system-out>
+  </testcase>
+  <testcase name="testUploadFile_Success" classname="com.fabric.watcher.archive.controller.ArchiveSearchControllerTest" time="0.024">
+    <error message="Request processing failed: ArchiveSearchException{errorCode=ARCH014, message=&apos;File upload failed due to unexpected error: &#10;Strict stubbing argument mismatch. Please check:&#10; - this invocation of &apos;uploadFile&apos; method:&#10;    fileUploadService.uploadFile(&#10;    UploadRequest{file=test.txt, targetPath=&apos;/opt/uploads/test.txt&apos;, overwrite=false, description=&apos;null&apos;},&#10;    &quot;testuser&quot;,&#10;    &quot;session_616292126&quot;,&#10;    null,&#10;    &quot;127.0.0.1&quot;&#10;);&#10;    -&gt; at com.fabric.watcher.archive.controller.ArchiveSearchController.uploadFile(ArchiveSearchController.java:301)&#10; - has following stubbing(s) with different arguments:&#10;    1. fileUploadService.uploadFile(&#10;    null,&#10;    null,&#10;    &quot;&quot;,&#10;    &quot;&quot;,&#10;    &quot;&quot;&#10;);&#10;      -&gt; at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testUploadFile_Success(ArchiveSearchControllerTest.java:148)&#10;Typically, stubbing argument mismatch indicates user mistake when writing tests.&#10;Mockito fails early so that you can debug potential problem easily.&#10;However, there are legit scenarios when this exception generates false negative signal:&#10;  - stubbing the same method multiple times using &apos;given().will()&apos; or &apos;when().then()&apos; API&#10;    Please use &apos;will().given()&apos; or &apos;doReturn().when()&apos; API for stubbing.&#10;  - stubbed method is intentionally invoked with different arguments by code under test&#10;    Please use default or &apos;silent&apos; JUnit Rule (equivalent of Strictness.LENIENT).&#10;For more information see javadoc for PotentialStubbingProblem class.&apos;}" type="jakarta.servlet.ServletException"><![CDATA[jakarta.servlet.ServletException: 
+Request processing failed: ArchiveSearchException{errorCode=ARCH014, message='File upload failed due to unexpected error: 
+Strict stubbing argument mismatch. Please check:
+ - this invocation of 'uploadFile' method:
+    fileUploadService.uploadFile(
+    UploadRequest{file=test.txt, targetPath='/opt/uploads/test.txt', overwrite=false, description='null'},
+    "testuser",
+    "session_616292126",
+    null,
+    "127.0.0.1"
+);
+    -> at com.fabric.watcher.archive.controller.ArchiveSearchController.uploadFile(ArchiveSearchController.java:301)
+ - has following stubbing(s) with different arguments:
+    1. fileUploadService.uploadFile(
+    null,
+    null,
+    "",
+    "",
+    ""
+);
+      -> at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testUploadFile_Success(ArchiveSearchControllerTest.java:148)
+Typically, stubbing argument mismatch indicates user mistake when writing tests.
+Mockito fails early so that you can debug potential problem easily.
+However, there are legit scenarios when this exception generates false negative signal:
+  - stubbing the same method multiple times using 'given().will()' or 'when().then()' API
+    Please use 'will().given()' or 'doReturn().when()' API for stubbing.
+  - stubbed method is intentionally invoked with different arguments by code under test
+    Please use default or 'silent' JUnit Rule (equivalent of Strictness.LENIENT).
+For more information see javadoc for PotentialStubbingProblem class.'}
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1022)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:72)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:165)
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:201)
+	at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testUploadFile_Success(ArchiveSearchControllerTest.java:152)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: ArchiveSearchException{errorCode=ARCH014, message='File upload failed due to unexpected error: 
+Strict stubbing argument mismatch. Please check:
+ - this invocation of 'uploadFile' method:
+    fileUploadService.uploadFile(
+    UploadRequest{file=test.txt, targetPath='/opt/uploads/test.txt', overwrite=false, description='null'},
+    "testuser",
+    "session_616292126",
+    null,
+    "127.0.0.1"
+);
+    -> at com.fabric.watcher.archive.controller.ArchiveSearchController.uploadFile(ArchiveSearchController.java:301)
+ - has following stubbing(s) with different arguments:
+    1. fileUploadService.uploadFile(
+    null,
+    null,
+    "",
+    "",
+    ""
+);
+      -> at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testUploadFile_Success(ArchiveSearchControllerTest.java:148)
+Typically, stubbing argument mismatch indicates user mistake when writing tests.
+Mockito fails early so that you can debug potential problem easily.
+However, there are legit scenarios when this exception generates false negative signal:
+  - stubbing the same method multiple times using 'given().will()' or 'when().then()' API
+    Please use 'will().given()' or 'doReturn().when()' API for stubbing.
+  - stubbed method is intentionally invoked with different arguments by code under test
+    Please use default or 'silent' JUnit Rule (equivalent of Strictness.LENIENT).
+For more information see javadoc for PotentialStubbingProblem class.'}
+	at com.fabric.watcher.archive.controller.ArchiveSearchController.uploadFile(ArchiveSearchController.java:316)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	... 12 more
+]]></error>
+    <system-out><![CDATA[15:20:36.939 [main] INFO com.fabric.watcher.archive.controller.ArchiveSearchController -- Archive Search Controller initialized
+15:20:36.948 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+15:20:36.948 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+15:20:36.948 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+15:20:36.959 [main] ERROR com.fabric.watcher.archive.controller.ArchiveSearchController -- Unexpected error during file upload for user testuser: 
+Strict stubbing argument mismatch. Please check:
+ - this invocation of 'uploadFile' method:
+    fileUploadService.uploadFile(
+    UploadRequest{file=test.txt, targetPath='/opt/uploads/test.txt', overwrite=false, description='null'},
+    "testuser",
+    "session_616292126",
+    null,
+    "127.0.0.1"
+);
+    -> at com.fabric.watcher.archive.controller.ArchiveSearchController.uploadFile(ArchiveSearchController.java:301)
+ - has following stubbing(s) with different arguments:
+    1. fileUploadService.uploadFile(
+    null,
+    null,
+    "",
+    "",
+    ""
+);
+      -> at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testUploadFile_Success(ArchiveSearchControllerTest.java:148)
+Typically, stubbing argument mismatch indicates user mistake when writing tests.
+Mockito fails early so that you can debug potential problem easily.
+However, there are legit scenarios when this exception generates false negative signal:
+  - stubbing the same method multiple times using 'given().will()' or 'when().then()' API
+    Please use 'will().given()' or 'doReturn().when()' API for stubbing.
+  - stubbed method is intentionally invoked with different arguments by code under test
+    Please use default or 'silent' JUnit Rule (equivalent of Strictness.LENIENT).
+For more information see javadoc for PotentialStubbingProblem class.
+org.mockito.exceptions.misusing.PotentialStubbingProblem: 
+Strict stubbing argument mismatch. Please check:
+ - this invocation of 'uploadFile' method:
+    fileUploadService.uploadFile(
+    UploadRequest{file=test.txt, targetPath='/opt/uploads/test.txt', overwrite=false, description='null'},
+    "testuser",
+    "session_616292126",
+    null,
+    "127.0.0.1"
+);
+    -> at com.fabric.watcher.archive.controller.ArchiveSearchController.uploadFile(ArchiveSearchController.java:301)
+ - has following stubbing(s) with different arguments:
+    1. fileUploadService.uploadFile(
+    null,
+    null,
+    "",
+    "",
+    ""
+);
+      -> at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testUploadFile_Success(ArchiveSearchControllerTest.java:148)
+Typically, stubbing argument mismatch indicates user mistake when writing tests.
+Mockito fails early so that you can debug potential problem easily.
+However, there are legit scenarios when this exception generates false negative signal:
+  - stubbing the same method multiple times using 'given().will()' or 'when().then()' API
+    Please use 'will().given()' or 'doReturn().when()' API for stubbing.
+  - stubbed method is intentionally invoked with different arguments by code under test
+    Please use default or 'silent' JUnit Rule (equivalent of Strictness.LENIENT).
+For more information see javadoc for PotentialStubbingProblem class.
+	at com.fabric.watcher.archive.service.FileUploadService.uploadFile(FileUploadService.java:67)
+	at com.fabric.watcher.archive.controller.ArchiveSearchController.uploadFile(ArchiveSearchController.java:301)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:72)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:165)
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:201)
+	at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testUploadFile_Success(ArchiveSearchControllerTest.java:152)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:767)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$8(TestMethodTestDescriptor.java:217)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:213)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:138)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:68)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:156)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:198)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:169)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:93)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:58)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:141)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:57)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47)
+	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:194)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:150)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:124)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+]]></system-out>
+  </testcase>
+  <testcase name="testContentSearch_InvalidRequest" classname="com.fabric.watcher.archive.controller.ArchiveSearchControllerTest" time="0.079">
+    <error message="&#10;Unnecessary stubbings detected.&#10;Clean &amp; maintainable test code requires zero unnecessary code.&#10;Following stubbings are unnecessary (click to navigate to relevant line of code):&#10;  1. -&gt; at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testContentSearch_InvalidRequest(ArchiveSearchControllerTest.java:201)&#10;  2. -&gt; at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testContentSearch_InvalidRequest(ArchiveSearchControllerTest.java:202)&#10;  3. -&gt; at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testContentSearch_InvalidRequest(ArchiveSearchControllerTest.java:203)&#10;Please remove unnecessary stubbings or use &apos;lenient&apos; strictness. More info: javadoc for UnnecessaryStubbingException class." type="org.mockito.exceptions.misusing.UnnecessaryStubbingException"><![CDATA[org.mockito.exceptions.misusing.UnnecessaryStubbingException: 
+
+Unnecessary stubbings detected.
+Clean & maintainable test code requires zero unnecessary code.
+Following stubbings are unnecessary (click to navigate to relevant line of code):
+  1. -> at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testContentSearch_InvalidRequest(ArchiveSearchControllerTest.java:201)
+  2. -> at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testContentSearch_InvalidRequest(ArchiveSearchControllerTest.java:202)
+  3. -> at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testContentSearch_InvalidRequest(ArchiveSearchControllerTest.java:203)
+Please remove unnecessary stubbings or use 'lenient' strictness. More info: javadoc for UnnecessaryStubbingException class.
+	at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:197)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+]]></error>
+    <system-out><![CDATA[15:20:36.965 [main] INFO com.fabric.watcher.archive.controller.ArchiveSearchController -- Archive Search Controller initialized
+15:20:36.973 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+15:20:36.973 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+15:20:36.973 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+15:20:37.042 [main] WARN org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver -- Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<com.fabric.watcher.archive.model.ContentSearchResponse> com.fabric.watcher.archive.controller.ArchiveSearchController.searchContent(com.fabric.watcher.archive.model.ContentSearchRequest,jakarta.servlet.http.HttpServletRequest) with 4 errors: [Field error in object 'contentSearchRequest' on field 'searchTerm': rejected value []; codes [NotBlank.contentSearchRequest.searchTerm,NotBlank.searchTerm,NotBlank.java.lang.String,NotBlank]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [contentSearchRequest.searchTerm,searchTerm]; arguments []; default message [searchTerm]]; default message [Search term cannot be blank]] [Field error in object 'contentSearchRequest' on field 'filePath': rejected value []; codes [Size.contentSearchRequest.filePath,Size.filePath,Size.java.lang.String,Size]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [contentSearchRequest.filePath,filePath]; arguments []; default message [filePath],500,1]; default message [File path must be between 1 and 500 characters]] [Field error in object 'contentSearchRequest' on field 'searchTerm': rejected value []; codes [Size.contentSearchRequest.searchTerm,Size.searchTerm,Size.java.lang.String,Size]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [contentSearchRequest.searchTerm,searchTerm]; arguments []; default message [searchTerm],255,1]; default message [Search term must be between 1 and 255 characters]] [Field error in object 'contentSearchRequest' on field 'filePath': rejected value []; codes [NotBlank.contentSearchRequest.filePath,NotBlank.filePath,NotBlank.java.lang.String,NotBlank]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [contentSearchRequest.filePath,filePath]; arguments []; default message [filePath]]; default message [File path cannot be blank]] ]
+]]></system-out>
+  </testcase>
+  <testcase name="testUploadFile_UploadServiceException" classname="com.fabric.watcher.archive.controller.ArchiveSearchControllerTest" time="0.011">
+    <error message="Request processing failed: ArchiveSearchException{errorCode=ARCH014, message=&apos;File upload failed due to unexpected error: &#10;Strict stubbing argument mismatch. Please check:&#10; - this invocation of &apos;uploadFile&apos; method:&#10;    fileUploadService.uploadFile(&#10;    UploadRequest{file=test.txt, targetPath=&apos;/opt/uploads/test.txt&apos;, overwrite=false, description=&apos;null&apos;},&#10;    &quot;testuser&quot;,&#10;    &quot;session_616292126&quot;,&#10;    null,&#10;    &quot;127.0.0.1&quot;&#10;);&#10;    -&gt; at com.fabric.watcher.archive.controller.ArchiveSearchController.uploadFile(ArchiveSearchController.java:301)&#10; - has following stubbing(s) with different arguments:&#10;    1. fileUploadService.uploadFile(&#10;    null,&#10;    null,&#10;    &quot;&quot;,&#10;    &quot;&quot;,&#10;    &quot;&quot;&#10;);&#10;      -&gt; at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testUploadFile_UploadServiceException(ArchiveSearchControllerTest.java:187)&#10;Typically, stubbing argument mismatch indicates user mistake when writing tests.&#10;Mockito fails early so that you can debug potential problem easily.&#10;However, there are legit scenarios when this exception generates false negative signal:&#10;  - stubbing the same method multiple times using &apos;given().will()&apos; or &apos;when().then()&apos; API&#10;    Please use &apos;will().given()&apos; or &apos;doReturn().when()&apos; API for stubbing.&#10;  - stubbed method is intentionally invoked with different arguments by code under test&#10;    Please use default or &apos;silent&apos; JUnit Rule (equivalent of Strictness.LENIENT).&#10;For more information see javadoc for PotentialStubbingProblem class.&apos;}" type="jakarta.servlet.ServletException"><![CDATA[jakarta.servlet.ServletException: 
+Request processing failed: ArchiveSearchException{errorCode=ARCH014, message='File upload failed due to unexpected error: 
+Strict stubbing argument mismatch. Please check:
+ - this invocation of 'uploadFile' method:
+    fileUploadService.uploadFile(
+    UploadRequest{file=test.txt, targetPath='/opt/uploads/test.txt', overwrite=false, description='null'},
+    "testuser",
+    "session_616292126",
+    null,
+    "127.0.0.1"
+);
+    -> at com.fabric.watcher.archive.controller.ArchiveSearchController.uploadFile(ArchiveSearchController.java:301)
+ - has following stubbing(s) with different arguments:
+    1. fileUploadService.uploadFile(
+    null,
+    null,
+    "",
+    "",
+    ""
+);
+      -> at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testUploadFile_UploadServiceException(ArchiveSearchControllerTest.java:187)
+Typically, stubbing argument mismatch indicates user mistake when writing tests.
+Mockito fails early so that you can debug potential problem easily.
+However, there are legit scenarios when this exception generates false negative signal:
+  - stubbing the same method multiple times using 'given().will()' or 'when().then()' API
+    Please use 'will().given()' or 'doReturn().when()' API for stubbing.
+  - stubbed method is intentionally invoked with different arguments by code under test
+    Please use default or 'silent' JUnit Rule (equivalent of Strictness.LENIENT).
+For more information see javadoc for PotentialStubbingProblem class.'}
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1022)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:72)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:165)
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:201)
+	at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testUploadFile_UploadServiceException(ArchiveSearchControllerTest.java:191)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: ArchiveSearchException{errorCode=ARCH014, message='File upload failed due to unexpected error: 
+Strict stubbing argument mismatch. Please check:
+ - this invocation of 'uploadFile' method:
+    fileUploadService.uploadFile(
+    UploadRequest{file=test.txt, targetPath='/opt/uploads/test.txt', overwrite=false, description='null'},
+    "testuser",
+    "session_616292126",
+    null,
+    "127.0.0.1"
+);
+    -> at com.fabric.watcher.archive.controller.ArchiveSearchController.uploadFile(ArchiveSearchController.java:301)
+ - has following stubbing(s) with different arguments:
+    1. fileUploadService.uploadFile(
+    null,
+    null,
+    "",
+    "",
+    ""
+);
+      -> at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testUploadFile_UploadServiceException(ArchiveSearchControllerTest.java:187)
+Typically, stubbing argument mismatch indicates user mistake when writing tests.
+Mockito fails early so that you can debug potential problem easily.
+However, there are legit scenarios when this exception generates false negative signal:
+  - stubbing the same method multiple times using 'given().will()' or 'when().then()' API
+    Please use 'will().given()' or 'doReturn().when()' API for stubbing.
+  - stubbed method is intentionally invoked with different arguments by code under test
+    Please use default or 'silent' JUnit Rule (equivalent of Strictness.LENIENT).
+For more information see javadoc for PotentialStubbingProblem class.'}
+	at com.fabric.watcher.archive.controller.ArchiveSearchController.uploadFile(ArchiveSearchController.java:316)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	... 12 more
+]]></error>
+    <system-out><![CDATA[15:20:37.044 [main] INFO com.fabric.watcher.archive.controller.ArchiveSearchController -- Archive Search Controller initialized
+15:20:37.050 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+15:20:37.050 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+15:20:37.051 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+15:20:37.053 [main] ERROR com.fabric.watcher.archive.controller.ArchiveSearchController -- Unexpected error during file upload for user testuser: 
+Strict stubbing argument mismatch. Please check:
+ - this invocation of 'uploadFile' method:
+    fileUploadService.uploadFile(
+    UploadRequest{file=test.txt, targetPath='/opt/uploads/test.txt', overwrite=false, description='null'},
+    "testuser",
+    "session_616292126",
+    null,
+    "127.0.0.1"
+);
+    -> at com.fabric.watcher.archive.controller.ArchiveSearchController.uploadFile(ArchiveSearchController.java:301)
+ - has following stubbing(s) with different arguments:
+    1. fileUploadService.uploadFile(
+    null,
+    null,
+    "",
+    "",
+    ""
+);
+      -> at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testUploadFile_UploadServiceException(ArchiveSearchControllerTest.java:187)
+Typically, stubbing argument mismatch indicates user mistake when writing tests.
+Mockito fails early so that you can debug potential problem easily.
+However, there are legit scenarios when this exception generates false negative signal:
+  - stubbing the same method multiple times using 'given().will()' or 'when().then()' API
+    Please use 'will().given()' or 'doReturn().when()' API for stubbing.
+  - stubbed method is intentionally invoked with different arguments by code under test
+    Please use default or 'silent' JUnit Rule (equivalent of Strictness.LENIENT).
+For more information see javadoc for PotentialStubbingProblem class.
+org.mockito.exceptions.misusing.PotentialStubbingProblem: 
+Strict stubbing argument mismatch. Please check:
+ - this invocation of 'uploadFile' method:
+    fileUploadService.uploadFile(
+    UploadRequest{file=test.txt, targetPath='/opt/uploads/test.txt', overwrite=false, description='null'},
+    "testuser",
+    "session_616292126",
+    null,
+    "127.0.0.1"
+);
+    -> at com.fabric.watcher.archive.controller.ArchiveSearchController.uploadFile(ArchiveSearchController.java:301)
+ - has following stubbing(s) with different arguments:
+    1. fileUploadService.uploadFile(
+    null,
+    null,
+    "",
+    "",
+    ""
+);
+      -> at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testUploadFile_UploadServiceException(ArchiveSearchControllerTest.java:187)
+Typically, stubbing argument mismatch indicates user mistake when writing tests.
+Mockito fails early so that you can debug potential problem easily.
+However, there are legit scenarios when this exception generates false negative signal:
+  - stubbing the same method multiple times using 'given().will()' or 'when().then()' API
+    Please use 'will().given()' or 'doReturn().when()' API for stubbing.
+  - stubbed method is intentionally invoked with different arguments by code under test
+    Please use default or 'silent' JUnit Rule (equivalent of Strictness.LENIENT).
+For more information see javadoc for PotentialStubbingProblem class.
+	at com.fabric.watcher.archive.service.FileUploadService.uploadFile(FileUploadService.java:67)
+	at com.fabric.watcher.archive.controller.ArchiveSearchController.uploadFile(ArchiveSearchController.java:301)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:72)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:165)
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:201)
+	at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testUploadFile_UploadServiceException(ArchiveSearchControllerTest.java:191)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:767)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$8(TestMethodTestDescriptor.java:217)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:213)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:138)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:68)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:156)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:198)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:169)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:93)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:58)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:141)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:57)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47)
+	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:194)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:150)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:124)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+]]></system-out>
+  </testcase>
+  <testcase name="testSearchContent_Success" classname="com.fabric.watcher.archive.controller.ArchiveSearchControllerTest" time="0.018">
+    <system-out><![CDATA[15:20:37.055 [main] INFO com.fabric.watcher.archive.controller.ArchiveSearchController -- Archive Search Controller initialized
+15:20:37.062 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+15:20:37.062 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+15:20:37.062 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+15:20:37.067 [main] INFO com.fabric.watcher.archive.controller.ArchiveSearchController -- Content search completed for user: testuser, found 0 matches in 0ms
+]]></system-out>
+  </testcase>
+  <testcase name="testUploadFile_NoAuthentication" classname="com.fabric.watcher.archive.controller.ArchiveSearchControllerTest" time="0.009">
+    <error message="Request processing failed: ArchiveSearchException{errorCode=ARCH001, message=&apos;Authentication token is required&apos;}" type="jakarta.servlet.ServletException"><![CDATA[jakarta.servlet.ServletException: Request processing failed: ArchiveSearchException{errorCode=ARCH001, message='Authentication token is required'}
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1022)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:72)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:165)
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:201)
+	at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testUploadFile_NoAuthentication(ArchiveSearchControllerTest.java:172)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: ArchiveSearchException{errorCode=ARCH001, message='Authentication token is required'}
+	at com.fabric.watcher.archive.controller.ArchiveSearchController.extractUserContext(ArchiveSearchController.java:332)
+	at com.fabric.watcher.archive.controller.ArchiveSearchController.uploadFile(ArchiveSearchController.java:288)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	... 12 more
+]]></error>
+    <system-out><![CDATA[15:20:37.073 [main] INFO com.fabric.watcher.archive.controller.ArchiveSearchController -- Archive Search Controller initialized
+15:20:37.079 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+15:20:37.079 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+15:20:37.079 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+]]></system-out>
+  </testcase>
+  <testcase name="testSearchFiles_NoAuthentication" classname="com.fabric.watcher.archive.controller.ArchiveSearchControllerTest" time="0.01">
+    <error message="Request processing failed: ArchiveSearchException{errorCode=ARCH001, message=&apos;Authentication token is required&apos;}" type="jakarta.servlet.ServletException"><![CDATA[jakarta.servlet.ServletException: Request processing failed: ArchiveSearchException{errorCode=ARCH001, message='Authentication token is required'}
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1022)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:72)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:165)
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:201)
+	at com.fabric.watcher.archive.controller.ArchiveSearchControllerTest.testSearchFiles_NoAuthentication(ArchiveSearchControllerTest.java:81)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: ArchiveSearchException{errorCode=ARCH001, message='Authentication token is required'}
+	at com.fabric.watcher.archive.controller.ArchiveSearchController.extractUserContext(ArchiveSearchController.java:332)
+	at com.fabric.watcher.archive.controller.ArchiveSearchController.searchFiles(ArchiveSearchController.java:97)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	... 12 more
+]]></error>
+    <system-out><![CDATA[15:20:37.083 [main] INFO com.fabric.watcher.archive.controller.ArchiveSearchController -- Archive Search Controller initialized
+15:20:37.090 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
+15:20:37.090 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
+15:20:37.090 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
+]]></system-out>
+  </testcase>
+</testsuite>

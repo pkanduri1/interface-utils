@@ -1,3 +1,4 @@
+/Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher/src/test/java/com/fabric/watcher/TestApplication.java
 /Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher/src/test/java/com/fabric/watcher/archive/controller/ArchiveSearchControllerTest.java
 /Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher/src/test/java/com/fabric/watcher/archive/controller/AuthenticationControllerTest.java
 /Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher/src/test/java/com/fabric/watcher/archive/model/AuditEntryTest.java
@@ -23,6 +24,10 @@
 /Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher/src/test/java/com/fabric/watcher/integration/ArchiveSearchAuthenticationIntegrationTest.java
 /Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher/src/test/java/com/fabric/watcher/integration/ArchiveSearchComprehensiveIntegrationTest.java
 /Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher/src/test/java/com/fabric/watcher/integration/ArchiveSearchEnvironmentIntegrationTest.java
+/Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher/src/test/java/com/fabric/watcher/integration/ArchiveSearchPerformanceIntegrationTest.java
 /Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher/src/test/java/com/fabric/watcher/integration/ArchiveSearchSecurityIntegrationTest.java
 /Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher/src/test/java/com/fabric/watcher/integration/ArchiveSearchSwaggerIntegrationTest.java
 /Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher/src/test/java/com/fabric/watcher/integration/ArchiveSearchUploadIntegrationTest.java
+/Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher/src/test/java/com/fabric/watcher/integration/FinalArchiveSearchIntegrationTest.java
+/Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher/src/test/java/com/fabric/watcher/integration/FinalIntegrationValidationTest.java
+/Users/pavankanduri/claude-ws/fabric-platform-new/database-script-watcher/src/test/java/com/fabric/watcher/integration/ProductionEnvironmentIntegrationTest.java

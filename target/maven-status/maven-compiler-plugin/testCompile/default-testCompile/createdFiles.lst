@@ -27,9 +27,13 @@ com/fabric/watcher/integration/ArchiveSearchAuditIntegrationTest.class
 com/fabric/watcher/archive/service/JwtTokenServiceTest.class
 com/fabric/watcher/integration/ArchiveSearchEnvironmentIntegrationTest$MixedProfilesWithProductionTest.class
 com/fabric/watcher/archive/security/TokenExpirationSecurityTest.class
+com/fabric/watcher/integration/ArchiveSearchPerformanceIntegrationTest.class
+com/fabric/watcher/TestApplication.class
 com/fabric/watcher/integration/ArchiveSearchComprehensiveIntegrationTest.class
 com/fabric/watcher/archive/model/UploadResponseTest.class
+com/fabric/watcher/integration/FinalIntegrationValidationTest.class
 com/fabric/watcher/integration/ArchiveSearchEnvironmentIntegrationTest$ProductionProfileVariationsTest.class
+com/fabric/watcher/integration/FinalArchiveSearchIntegrationTest.class
 com/fabric/watcher/archive/controller/AuthenticationControllerTest.class
 com/fabric/watcher/integration/ArchiveSearchSecurityIntegrationTest.class
 com/fabric/watcher/archive/model/ValidationResponseTest.class
@@ -42,5 +46,6 @@ com/fabric/watcher/integration/ArchiveSearchSwaggerIntegrationTest$ProductionSwa
 com/fabric/watcher/archive/model/AuthResponseTest.class
 com/fabric/watcher/integration/ArchiveSearchEnvironmentIntegrationTest$CaseInsensitiveProductionTest.class
 com/fabric/watcher/integration/ArchiveSearchSwaggerIntegrationTest.class
+com/fabric/watcher/integration/ProductionEnvironmentIntegrationTest.class
 com/fabric/watcher/integration/ArchiveSearchEnvironmentIntegrationTest$EnvironmentDetectionFallbackTest.class
 com/fabric/watcher/archive/model/UserDetailsTest.class
