@@ -90,6 +90,24 @@ public class ArchiveSearchProperties {
     @Min(1)
     private int maxDirectoryDepth = 10;
 
+    /**
+     * LDAP configuration for user authentication.
+     */
+    @NotNull
+    private LdapConfig ldap = new LdapConfig();
+
+    /**
+     * Upload configuration for file upload operations.
+     */
+    @NotNull
+    private UploadConfig upload = new UploadConfig();
+
+    /**
+     * Audit configuration for logging user activities.
+     */
+    @NotNull
+    private AuditConfig audit = new AuditConfig();
+
     // Getters and Setters
 
     public boolean isEnabled() {
@@ -172,6 +190,30 @@ public class ArchiveSearchProperties {
         this.maxDirectoryDepth = maxDirectoryDepth;
     }
 
+    public LdapConfig getLdap() {
+        return ldap;
+    }
+
+    public void setLdap(LdapConfig ldap) {
+        this.ldap = ldap;
+    }
+
+    public UploadConfig getUpload() {
+        return upload;
+    }
+
+    public void setUpload(UploadConfig upload) {
+        this.upload = upload;
+    }
+
+    public AuditConfig getAudit() {
+        return audit;
+    }
+
+    public void setAudit(AuditConfig audit) {
+        this.audit = audit;
+    }
+
     @Override
     public String toString() {
         return "ArchiveSearchProperties{" +
@@ -185,6 +227,380 @@ public class ArchiveSearchProperties {
                 ", maxConcurrentOperations=" + maxConcurrentOperations +
                 ", auditLoggingEnabled=" + auditLoggingEnabled +
                 ", maxDirectoryDepth=" + maxDirectoryDepth +
+                ", ldap=" + ldap +
+                ", upload=" + upload +
+                ", audit=" + audit +
                 '}';
+    }
+
+    /**
+     * LDAP configuration properties.
+     */
+    public static class LdapConfig {
+        
+        /**
+         * LDAP server URL.
+         */
+        private String url = "ldap://localhost:389";
+
+        /**
+         * Base DN for LDAP searches.
+         */
+        private String baseDn = "dc=company,dc=com";
+
+        /**
+         * User search base DN.
+         */
+        private String userSearchBase = "ou=users";
+
+        /**
+         * User search filter pattern.
+         */
+        private String userSearchFilter = "(sAMAccountName={0})";
+
+        /**
+         * Connection timeout in milliseconds.
+         */
+        @Min(1000)
+        private int connectionTimeout = 5000;
+
+        /**
+         * Read timeout in milliseconds.
+         */
+        @Min(1000)
+        private int readTimeout = 10000;
+
+        /**
+         * Whether to use SSL/TLS for LDAP connections.
+         */
+        private boolean useSSL = false;
+
+        /**
+         * LDAP bind DN for authentication.
+         */
+        private String bindDn;
+
+        /**
+         * LDAP bind password for authentication.
+         */
+        private String bindPassword;
+
+        // Getters and Setters
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getBaseDn() {
+            return baseDn;
+        }
+
+        public void setBaseDn(String baseDn) {
+            this.baseDn = baseDn;
+        }
+
+        public String getUserSearchBase() {
+            return userSearchBase;
+        }
+
+        public void setUserSearchBase(String userSearchBase) {
+            this.userSearchBase = userSearchBase;
+        }
+
+        public String getUserSearchFilter() {
+            return userSearchFilter;
+        }
+
+        public void setUserSearchFilter(String userSearchFilter) {
+            this.userSearchFilter = userSearchFilter;
+        }
+
+        public int getConnectionTimeout() {
+            return connectionTimeout;
+        }
+
+        public void setConnectionTimeout(int connectionTimeout) {
+            this.connectionTimeout = connectionTimeout;
+        }
+
+        public int getReadTimeout() {
+            return readTimeout;
+        }
+
+        public void setReadTimeout(int readTimeout) {
+            this.readTimeout = readTimeout;
+        }
+
+        public boolean isUseSSL() {
+            return useSSL;
+        }
+
+        public void setUseSSL(boolean useSSL) {
+            this.useSSL = useSSL;
+        }
+
+        public String getBindDn() {
+            return bindDn;
+        }
+
+        public void setBindDn(String bindDn) {
+            this.bindDn = bindDn;
+        }
+
+        public String getBindPassword() {
+            return bindPassword;
+        }
+
+        public void setBindPassword(String bindPassword) {
+            this.bindPassword = bindPassword;
+        }
+
+        @Override
+        public String toString() {
+            return "LdapConfig{" +
+                    "url='" + url + '\'' +
+                    ", baseDn='" + baseDn + '\'' +
+                    ", userSearchBase='" + userSearchBase + '\'' +
+                    ", userSearchFilter='" + userSearchFilter + '\'' +
+                    ", connectionTimeout=" + connectionTimeout +
+                    ", readTimeout=" + readTimeout +
+                    ", useSSL=" + useSSL +
+                    ", bindDn='" + bindDn + '\'' +
+                    ", bindPassword='[PROTECTED]'" +
+                    '}';
+        }
+    }
+
+    /**
+     * Upload configuration properties.
+     */
+    public static class UploadConfig {
+        
+        /**
+         * Base directory for file uploads.
+         */
+        private String uploadDirectory = "/opt/uploads";
+
+        /**
+         * List of allowed file extensions.
+         */
+        @NotEmpty
+        private List<String> allowedExtensions = Arrays.asList(".txt", ".sql", ".xml", ".json", 
+                                                              ".properties", ".yml", ".yaml", ".log");
+
+        /**
+         * Maximum upload file size in bytes.
+         */
+        @Min(1)
+        private long maxUploadSize = 100L * 1024 * 1024; // 100MB
+
+        /**
+         * Temporary directory for upload processing.
+         */
+        private String tempDirectory = "/tmp/file-uploads";
+
+        /**
+         * Whether to create directories if they don't exist.
+         */
+        private boolean createDirectories = true;
+
+        /**
+         * Whether to preserve original file timestamps.
+         */
+        private boolean preserveTimestamps = true;
+
+        /**
+         * Maximum number of concurrent uploads.
+         */
+        @Min(1)
+        private int maxConcurrentUploads = 3;
+
+        // Getters and Setters
+
+        public String getUploadDirectory() {
+            return uploadDirectory;
+        }
+
+        public void setUploadDirectory(String uploadDirectory) {
+            this.uploadDirectory = uploadDirectory;
+        }
+
+        public List<String> getAllowedExtensions() {
+            return allowedExtensions;
+        }
+
+        public void setAllowedExtensions(List<String> allowedExtensions) {
+            this.allowedExtensions = allowedExtensions;
+        }
+
+        public long getMaxUploadSize() {
+            return maxUploadSize;
+        }
+
+        public void setMaxUploadSize(long maxUploadSize) {
+            this.maxUploadSize = maxUploadSize;
+        }
+
+        public String getTempDirectory() {
+            return tempDirectory;
+        }
+
+        public void setTempDirectory(String tempDirectory) {
+            this.tempDirectory = tempDirectory;
+        }
+
+        public boolean isCreateDirectories() {
+            return createDirectories;
+        }
+
+        public void setCreateDirectories(boolean createDirectories) {
+            this.createDirectories = createDirectories;
+        }
+
+        public boolean isPreserveTimestamps() {
+            return preserveTimestamps;
+        }
+
+        public void setPreserveTimestamps(boolean preserveTimestamps) {
+            this.preserveTimestamps = preserveTimestamps;
+        }
+
+        public int getMaxConcurrentUploads() {
+            return maxConcurrentUploads;
+        }
+
+        public void setMaxConcurrentUploads(int maxConcurrentUploads) {
+            this.maxConcurrentUploads = maxConcurrentUploads;
+        }
+
+        @Override
+        public String toString() {
+            return "UploadConfig{" +
+                    "uploadDirectory='" + uploadDirectory + '\'' +
+                    ", allowedExtensions=" + allowedExtensions +
+                    ", maxUploadSize=" + maxUploadSize +
+                    ", tempDirectory='" + tempDirectory + '\'' +
+                    ", createDirectories=" + createDirectories +
+                    ", preserveTimestamps=" + preserveTimestamps +
+                    ", maxConcurrentUploads=" + maxConcurrentUploads +
+                    '}';
+        }
+    }
+
+    /**
+     * Audit configuration properties.
+     */
+    public static class AuditConfig {
+        
+        /**
+         * Audit log file path.
+         */
+        private String logFile = "/var/log/archive-search/audit.log";
+
+        /**
+         * Maximum audit log file size.
+         */
+        private String maxFileSize = "10MB";
+
+        /**
+         * Maximum number of audit log files to keep.
+         */
+        @Min(1)
+        private int maxHistory = 30;
+
+        /**
+         * Whether to enable audit logging.
+         */
+        private boolean enabled = true;
+
+        /**
+         * Log format pattern.
+         */
+        private String logPattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n";
+
+        /**
+         * Whether to log to console in addition to file.
+         */
+        private boolean logToConsole = false;
+
+        /**
+         * Whether to compress rotated log files.
+         */
+        private boolean compressRotatedFiles = true;
+
+        // Getters and Setters
+
+        public String getLogFile() {
+            return logFile;
+        }
+
+        public void setLogFile(String logFile) {
+            this.logFile = logFile;
+        }
+
+        public String getMaxFileSize() {
+            return maxFileSize;
+        }
+
+        public void setMaxFileSize(String maxFileSize) {
+            this.maxFileSize = maxFileSize;
+        }
+
+        public int getMaxHistory() {
+            return maxHistory;
+        }
+
+        public void setMaxHistory(int maxHistory) {
+            this.maxHistory = maxHistory;
+        }
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        public String getLogPattern() {
+            return logPattern;
+        }
+
+        public void setLogPattern(String logPattern) {
+            this.logPattern = logPattern;
+        }
+
+        public boolean isLogToConsole() {
+            return logToConsole;
+        }
+
+        public void setLogToConsole(boolean logToConsole) {
+            this.logToConsole = logToConsole;
+        }
+
+        public boolean isCompressRotatedFiles() {
+            return compressRotatedFiles;
+        }
+
+        public void setCompressRotatedFiles(boolean compressRotatedFiles) {
+            this.compressRotatedFiles = compressRotatedFiles;
+        }
+
+        @Override
+        public String toString() {
+            return "AuditConfig{" +
+                    "logFile='" + logFile + '\'' +
+                    ", maxFileSize='" + maxFileSize + '\'' +
+                    ", maxHistory=" + maxHistory +
+                    ", enabled=" + enabled +
+                    ", logPattern='" + logPattern + '\'' +
+                    ", logToConsole=" + logToConsole +
+                    ", compressRotatedFiles=" + compressRotatedFiles +
+                    '}';
+        }
     }
 }
