@@ -72,7 +72,9 @@ public class ArchiveSearchException extends RuntimeException {
         ENVIRONMENT_RESTRICTED("ARCH006", "Feature disabled in production"),
         INVALID_PARAMETER("ARCH007", "Invalid parameter provided"),
         IO_ERROR("ARCH008", "Input/output error occurred"),
-        SECURITY_VIOLATION("ARCH009", "Security violation detected");
+        SECURITY_VIOLATION("ARCH009", "Security violation detected"),
+        LDAP_CONNECTION_ERROR("ARCH010", "LDAP connection error"),
+        AUTHENTICATION_FAILED("ARCH011", "Authentication failed");
 
         private final String code;
         private final String defaultMessage;
