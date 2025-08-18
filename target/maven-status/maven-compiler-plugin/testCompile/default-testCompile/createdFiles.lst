@@ -3,6 +3,7 @@ com/fabric/watcher/archive/security/AuthenticationSecurityTest.class
 com/fabric/watcher/archive/service/AuthenticationRateLimitServiceTest.class
 com/fabric/watcher/integration/ArchiveSearchEnvironmentIntegrationTest$StagingEnvironmentTest.class
 com/fabric/watcher/integration/ArchiveSearchSwaggerIntegrationTest$DevelopmentSwaggerTest.class
+com/fabric/watcher/integration/ArchiveSearchPerformanceIntegrationTest$DownloadResult.class
 com/fabric/watcher/archive/security/RateLimitingSecurityTest.class
 com/fabric/watcher/archive/service/FileUploadServiceTest.class
 com/fabric/watcher/archive/security/AuthorizationSecurityTest.class
